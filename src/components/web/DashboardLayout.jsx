@@ -4,6 +4,7 @@ import DashboardView from './DashboardView';
 import ApplicationsView from './ApplicationsView';
 import ReportsView from './ReportsView';
 import SettingsView from './SettingsView';
+import BackgroundDecor from '../BackgroundDecor';
 
 export default function DashboardLayout({ applications = [], onRowClick }) {
   const [activeView, setActiveView] = useState('dashboard');
@@ -24,14 +25,17 @@ export default function DashboardLayout({ applications = [], onRowClick }) {
   };
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-screen bg-white overflow-hidden relative">
+      {/* Background decorations - animated SVG layer */}
+      <BackgroundDecor />
+      
       {/* Sidebar */}
       <Sidebar activeView={activeView} onViewChange={setActiveView} />
 
       {/* Main Content Area */}
-      <main className="flex-1 ml-64 overflow-auto bg-slate-50">
+      <main className="flex-1 ml-20 md:ml-64 overflow-y-auto relative z-10 w-full min-h-screen transition-all duration-300">
         {/* Dynamic Content */}
-        <div className="p-8">
+        <div className="p-4 sm:p-8 pb-12 w-full">
           {renderView()}
         </div>
       </main>

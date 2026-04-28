@@ -1,13 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom styles */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: theme('colors.rufus.bg');
+  color: theme('colors.rufus.textMain');
+  font-family: theme('fontFamily.sans');
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-space {
+  font-family: theme('fontFamily.space');
+}
+
+a {
+  color: theme('colors.rufus.blue');
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: theme('colors.rufus.cyan');
 }

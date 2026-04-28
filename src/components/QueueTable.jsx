@@ -49,23 +49,72 @@ const formatPhp = (amount) => {
   }).format(amount);
 };
 
-const getStatusBadgeStyles = (status) => {
+const getStatusBadge = (status) => {
   switch (status) {
     case 'Pre-Approved':
-      return 'bg-green-100 text-green-800';
+      return (
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#00C896]/15 text-[#00C896] border border-[#00C896]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00C896] animate-pulse shadow-[0_0_8px_rgba(0,200,150,0.8)]"></span>
+          {status}
+        </span>
+      );
     case 'Review Needed':
-      return 'bg-yellow-100 text-yellow-800';
+      return (
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#F4A124]/15 text-[#F4A124] border border-[#F4A124]">
+          {status}
+        </span>
+      );
     case 'Pending':
-      return 'bg-blue-100 text-blue-800';
+      return (
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#8899BB]/15 text-[#8899BB] border border-[#8899BB]">
+          {status}
+        </span>
+      );
     default:
-      return 'bg-slate-100 text-slate-800';
+      return null;
   }
 };
 
-const getScoreColor = (score) => {
-  if (score >= 80) return 'text-green-600';
-  if (score >= 70) return 'text-blue-600';
-  return 'text-slate-700';
+const ScoreRing = ({ score }) => {
+  let color = '#8899BB'; // Gray
+  if (score >= 80) color = '#00C896'; // Green
+  else if (score >= 70) color = '#F4A124'; // Amber
+
+  const radius = 18;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (score / 100) * circumference;
+
+  return (
+    <div className="relative w-10 h-10 flex items-center justify-center">
+      <svg className="absolute inset-0 w-full h-full -rotate-90">
+        {/* Background circle */}
+        <circle
+          cx="20"
+          cy="20"
+          r={radius}
+          stroke="#E0E7FF"
+          strokeWidth="4"
+          fill="transparent"
+        />
+        {/* Progress circle */}
+        <circle
+          cx="20"
+          cy="20"
+          r={radius}
+          stroke={color}
+          strokeWidth="4"
+          fill="transparent"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          className="transition-all duration-1000 ease-out"
+        />
+      </svg>
+      <span className="relative z-10 text-xs font-bold text-blue-900">
+        {score}
+      </span>
+    </div>
+  );
 };
 
 export default function QueueTable({ applications = mockApplications, onRowClick = () => {} }) {
@@ -73,113 +122,77 @@ export default function QueueTable({ applications = mockApplications, onRowClick
 
   if (displayApplications.length === 0) {
     return (
-      <div className="w-full bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(6,81,237,0.08)] p-8 text-center border border-slate-100">
-        <p className="text-slate-600 font-medium">No applications to display.</p>
+      <div className="w-full bg-white rounded-2xl shadow-[0_2px_16px_rgba(26,110,219,0.08)] p-8 text-center border border-blue-100">
+        <p className="text-slate-600 font-medium uppercase tracking-[0.1em]">No applications to display.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(6,81,237,0.08)] border border-slate-100 overflow-hidden">
-      <table className="w-full">
-        <thead>
-          <tr className="bg-slate-50 border-b border-slate-100">
-            <th className="px-6 py-4 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-              Business Info
-            </th>
-            <th className="px-6 py-4 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-              Loan Request
-            </th>
-            <th className="px-6 py-4 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-              AI Status
-            </th>
-            <th className="px-6 py-4 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-              RUFUS Score
-            </th>
-            <th className="px-6 py-4 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {displayApplications.map((application) => (
-            <tr
-              key={application.id}
-              className="border-b border-slate-100 hover:bg-slate-50 transition-all duration-200 group"
-            >
-              {/* Business Info - Stacked */}
-              <td className="px-6 py-4 text-left">
-                <div className="space-y-1">
-                  <p className="text-sm font-bold text-slate-900">
-                    {application.businessName}
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    {application.businessType}
-                  </p>
-                </div>
-              </td>
+    <div className="w-full bg-white rounded-2xl shadow-[0_2px_16px_rgba(26,110,219,0.08)] border border-blue-100 overflow-hidden relative group">
+      <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-blue-100 bg-blue-50 sticky top-0 z-20">
+        <div className="col-span-5 text-[11px] font-bold text-rufus-blue uppercase tracking-wider">Business Info</div>
+        <div className="col-span-2 text-[11px] font-bold text-rufus-blue uppercase tracking-wider">Loan Request</div>
+        <div className="col-span-2 text-[11px] font-bold text-rufus-blue uppercase tracking-wider">AI Status</div>
+        <div className="col-span-2 text-[11px] font-bold text-rufus-blue uppercase tracking-wider">RUFUS Score</div>
+        <div className="col-span-1 text-[11px] font-bold text-rufus-blue uppercase tracking-wider text-right">Actions</div>
+      </div>
+      
+      <div className="flex flex-col relative z-10 w-full divide-y divide-blue-100">
+        {displayApplications.map((application) => (
+          <div
+            key={application.id}
+            className="grid grid-cols-12 gap-4 items-center px-6 py-4 hover:bg-blue-50 transition-all duration-200 group/row relative bg-white hover:-translate-y-[1px]"
+          >
+            {/* Left Blue Border on Hover */}
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-rufus-blue opacity-0 group-hover/row:opacity-100 transition-opacity shadow-[0_0_10px_rgba(26,110,219,0.4)]"></div>
 
-              {/* Loan Request */}
-              <td className="px-6 py-4 text-left">
-                <p className="text-sm font-bold text-slate-900">
-                  {formatPhp(application.requestedAmount)}
-                </p>
-              </td>
+            {/* Business Info */}
+            <div className="col-span-5">
+              <p className="text-sm font-bold text-blue-900 mb-1">
+                {application.businessName}
+              </p>
+              <p className="text-xs text-slate-600 uppercase tracking-wider">
+                {application.businessType}
+              </p>
+            </div>
 
-              {/* AI Status Badge */}
-              <td className="px-6 py-4 text-left">
-                <span
-                  className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusBadgeStyles(
-                    application.aiStatus
-                  )}`}
-                >
-                  {application.aiStatus}
-                </span>
-              </td>
+            {/* Loan Request */}
+            <div className="col-span-2">
+              <p className="text-sm font-bold text-blue-900 tracking-wide font-space">
+                {formatPhp(application.requestedAmount)}
+              </p>
+            </div>
 
-              {/* RUFUS Score with Info Tooltip */}
-              <td className="px-6 py-4 text-left">
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`text-sm font-bold ${getScoreColor(
-                      application.rufusScore
-                    )}`}
-                  >
-                    {application.rufusScore}
-                  </span>
-                  <div className="relative group">
-                    <button className="p-1 text-slate-400 hover:text-blue-600 cursor-help transition-colors" title="Score details">
-                      <Info size={14} />
-                    </button>
-                    {/* Tooltip */}
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto z-50">
-                      <div className="bg-slate-900 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap shadow-lg">
-                        <p className="font-semibold mb-1">Score Breakdown</p>
-                        <p>• Operating History: 40%</p>
-                        <p>• Cash Flow Health: 35%</p>
-                        <p>• Debt Ratio: 25%</p>
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45 -mt-1"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </td>
+            {/* AI Status Badge */}
+            <div className="col-span-2">
+              {getStatusBadge(application.aiStatus)}
+            </div>
 
-              {/* Action Buttons */}
-              <td className="py-4 px-6">
-                <div className="flex gap-3">
-                  <button onClick={() => onRowClick(application)} className="p-2 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg" title="View Details">
-                    <Eye size={18} />
-                  </button>
-                  <button className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg" title="Archive">
-                    <Archive size={18} />
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            {/* RUFUS Score with Circular Progess */}
+            <div className="col-span-2 flex items-center justify-start">
+              <ScoreRing score={application.rufusScore} />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="col-span-1 flex items-center justify-end gap-3">
+              <button
+                onClick={() => onRowClick(application)}
+                className="p-2 text-slate-400 hover:text-rufus-blue hover:bg-blue-50 hover:shadow-[0_0_12px_rgba(26,110,219,0.2)] rounded-lg transition-all duration-200"
+                title="View Details"
+              >
+                <Eye size={18} />
+              </button>
+              <button
+                className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg transition-all duration-200"
+                title="Archive"
+              >
+                <Archive size={18} />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
