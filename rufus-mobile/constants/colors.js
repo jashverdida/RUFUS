@@ -1,12 +1,14 @@
 export const Colors = {
-  primary: '#2563eb',
-  primaryLight: '#eff6ff',
-  green: '#16a34a',
-  greenLight: '#f0fdf4',
-  yellow: '#ca8a04',
-  yellowLight: '#fefce8',
-  red: '#dc2626',
-  redLight: '#fef2f2',
+  primary: '#1A6EDB',
+  primaryLight: '#EBF2FF',
+  cyan: '#00C2D1',
+  cyanLight: '#E6F9FA',
+  green: '#00C896',
+  greenLight: '#E6FAF5',
+  amber: '#F4A124',
+  amberLight: '#FEF6E7',
+  red: '#EF4444',
+  redLight: '#FEF2F2',
   slate900: '#0f172a',
   slate800: '#1e293b',
   slate700: '#334155',
@@ -22,7 +24,7 @@ export const Colors = {
 
 export const getScoreColor = (score) => {
   if (score > 80) return { stroke: Colors.green, text: Colors.green };
-  if (score >= 50) return { stroke: Colors.yellow, text: Colors.yellow };
+  if (score >= 50) return { stroke: Colors.amber, text: Colors.amber };
   return { stroke: Colors.red, text: Colors.red };
 };
 
@@ -32,10 +34,12 @@ export const getStatusColors = (status) => {
       return { bg: Colors.greenLight, text: Colors.green };
     case 'Review Needed':
     case 'Needs Manual Review':
-      return { bg: Colors.yellowLight, text: Colors.yellow };
+      return { bg: Colors.amberLight, text: Colors.amber };
     case 'Pending AI':
     case 'Pending':
       return { bg: Colors.primaryLight, text: Colors.primary };
+    case 'Declined':
+      return { bg: Colors.redLight, text: Colors.red };
     default:
       return { bg: Colors.slate100, text: Colors.slate600 };
   }
