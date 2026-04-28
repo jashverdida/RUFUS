@@ -15,15 +15,12 @@ const formatPhp = (amount) =>
   new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: 0 }).format(amount);
 
 const DocRow = ({ label, done }) => (
-  <View style={styles.docRow}>
-    <Ionicons
-      name={done ? 'checkmark-circle' : 'close-circle'}
-      size={18}
-      color={done ? Colors.green : Colors.red}
-    />
-    <Text style={[styles.docLabel, { color: done ? Colors.green : Colors.red }]}>{label}</Text>
-    <Text style={[styles.docStatus, { color: done ? Colors.green : Colors.red }]}>
-      {done ? 'Submitted' : 'Missing'}
+  <View style={[styles.docPill, done ? styles.docPillActive : styles.docPillInactive]}>
+    <Text
+      style={[styles.docLabel, { color: done ? Colors.green : Colors.slate400 }]}
+      numberOfLines={1}
+    >
+      {label}
     </Text>
   </View>
 );
@@ -174,9 +171,11 @@ export default function DetailScreen() {
             <Ionicons name="attach-outline" size={16} color={Colors.primary} />
             <Text style={styles.cardTitle}>  Submitted Documents</Text>
           </View>
-          <DocRow label="Business Plan" done={app.docs.plan} />
-          <DocRow label="Financial Statement" done={app.docs.financial} />
-          <DocRow label="Business History" done={app.docs.history} />
+          <View style={styles.docContainer}>
+            <DocRow label="Business Plan" done={app.docs.plan} />
+            <DocRow label="Financial Statement" done={app.docs.financial} />
+            <DocRow label="Business History" done={app.docs.history} />
+          </View>
         </View>
 
         {/* Digitized Financials */}
@@ -293,9 +292,16 @@ const styles = StyleSheet.create({
   flagItem: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, marginBottom: 8 },
   flagText: { fontSize: 13, color: Colors.red, flex: 1, lineHeight: 20 },
 
-  docRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: Colors.slate100 },
-  docLabel: { flex: 1, fontSize: 13, fontWeight: '600' },
-  docStatus: { fontSize: 12, fontWeight: '600' },
+  docContainer: {
+    borderWidth: 1, borderColor: Colors.slate200, borderRadius: 10,
+    padding: 8, gap: 8,
+  },
+  docPill: {
+    borderRadius: 8, paddingVertical: 12, paddingHorizontal: 14, borderWidth: 1,
+  },
+  docPillActive: { borderColor: Colors.green, backgroundColor: Colors.white },
+  docPillInactive: { borderColor: Colors.slate200, backgroundColor: Colors.white },
+  docLabel: { fontSize: 14, fontWeight: '600' },
 
   finRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 10 },
   finRowBorder: { borderBottomWidth: 1, borderBottomColor: Colors.slate100 },

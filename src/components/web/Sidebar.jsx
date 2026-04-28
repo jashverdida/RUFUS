@@ -20,7 +20,7 @@ export default function Sidebar({ activeView = 'dashboard', onViewChange = () =>
   ];
 
   return (
-    <aside className="w-20 md:w-64 h-screen bg-white border-r border-slate-200 fixed left-0 top-0 flex flex-col shadow-[2px_0_15px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-300 z-50">
+    <aside className="w-20 md:w-64 bg-white border-r border-slate-200 fixed left-0 top-0 flex flex-col shadow-[2px_0_15px_rgba(0,0,0,0.05)] overflow-hidden transition-all duration-300 z-50" style={{ height: 'calc(100vh / 1.3333)' }}>
       {/* Decorative Glow */}
       <div className="absolute top-0 left-0 w-1 bg-rufus-cyan h-full shadow-[0_0_20px_rgba(0,194,209,0.3)]"></div>
       
@@ -43,14 +43,14 @@ export default function Sidebar({ activeView = 'dashboard', onViewChange = () =>
         </div>
         <div className="hidden md:block">
           <h1 className="text-2xl font-space font-bold tracking-wider text-slate-800">RUFUS</h1>
-          <p className="text-[10px] text-slate-500 mt-1 tracking-widest uppercase truncate w-36">
+          <p className="text-[10px] text-slate-500 mt-1 tracking-widest uppercase">
             RAFI Frontline System
           </p>
         </div>
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 px-3 md:px-4 py-8 space-y-2 relative z-10">
+      <nav className="flex-1 min-h-0 overflow-y-auto px-3 md:px-4 py-8 space-y-2 relative z-10">
         {menuItems.map((item) => {
           const IconComponent = iconMap[item.icon];
           const isActive = activeView === item.id;
