@@ -1,10 +1,11 @@
 import React from 'react';
 import rufusLogo from '../../assets/rufus-logo.png';
-import { LayoutDashboard, FileText, TrendingUp, Settings, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, FileText, TrendingUp, Wallet, Settings, ChevronRight } from 'lucide-react';
 
 const iconMap = {
   dashboard: LayoutDashboard,
   applications: FileText,
+  collections: Wallet,
   reports: TrendingUp,
   settings: Settings,
 };
@@ -13,6 +14,7 @@ export default function Sidebar({ activeView = 'dashboard', onViewChange = () =>
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
     { id: 'applications', label: 'Applications', icon: 'applications' },
+    { id: 'collections', label: 'Collections', icon: 'collections' },
     { id: 'reports', label: 'Reports', icon: 'reports' },
     { id: 'settings', label: 'Settings', icon: 'settings' },
   ];
