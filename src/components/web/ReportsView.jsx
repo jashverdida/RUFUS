@@ -174,7 +174,7 @@ export default function ReportsView() {
           bg: 'bg-emerald-50',
           text: 'text-emerald-700',
           border: 'border-emerald-200',
-          label: '⚡ Fast-Track Approve',
+          label: 'Fast-Track Approve',
           color: '#00C896',
         };
       case 'review':
@@ -182,7 +182,7 @@ export default function ReportsView() {
           bg: 'bg-amber-50',
           text: 'text-amber-700',
           border: 'border-amber-200',
-          label: '👁 Needs Review',
+          label: 'Needs Review',
           color: '#F4A124',
         };
       case 'manual':
@@ -190,7 +190,7 @@ export default function ReportsView() {
           bg: 'bg-red-50',
           text: 'text-red-700',
           border: 'border-red-200',
-          label: '⚠ Manual Assessment',
+          label: 'Manual Assessment',
           color: '#EF4444',
         };
       default:
@@ -459,7 +459,7 @@ export default function ReportsView() {
                       </td>
                       <td className="px-6 py-4">
                         <div
-                          className={`inline-block px-3 py-1 rounded-lg text-xs font-bold border ${badge.bg} ${badge.text} ${badge.border}`}
+                          className={`inline-block px-3 py-1 rounded-lg text-xs font-bold border whitespace-nowrap ${badge.bg} ${badge.text} ${badge.border}`}
                         >
                           {badge.label}
                         </div>

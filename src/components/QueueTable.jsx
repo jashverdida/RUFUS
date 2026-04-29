@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Eye, Archive, Info } from 'lucide-react';
 
 // Expanded mock data with realistic Filipino SMEs
@@ -117,7 +117,46 @@ const ScoreRing = ({ score }) => {
   );
 };
 
+const AVATAR_COLORS = ['#1A6EDB', '#00C2D1', '#00C896', '#F4A124'];
+
+const getAvatarColor = (name) => AVATAR_COLORS[name.charCodeAt(0) % AVATAR_COLORS.length];
+
+const getScoreColor = (score) =>
+  score > 80 ? '#00C896' : score >= 50 ? '#F4A124' : '#EF4444';
+
+function BusinessTooltip({ application }) {
+  const avatarColor = getAvatarColor(application.businessName);
+  const scoreColor = getScoreColor(application.rufusScore);
+  return (
+    <div className="absolute bottom-full left-0 mb-3 z-50 w-56 bg-white rounded-xl shadow-2xl border border-blue-100 p-4 pointer-events-none">
+      {/* Arrow */}
+      <div className="absolute top-full left-6 w-3 h-3 bg-white border-b border-r border-blue-100 rotate-45 -mt-[7px]" />
+      {/* Avatar */}
+      <div className="flex items-center gap-3 mb-3">
+        <div
+          className="w-11 h-11 rounded-full flex items-center justify-center text-white text-lg font-bold flex-shrink-0"
+          style={{ backgroundColor: avatarColor }}
+        >
+          {application.businessName.charAt(0)}
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs font-bold text-blue-900 leading-tight">{application.businessName}</p>
+          <p className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">{application.businessType}</p>
+        </div>
+      </div>
+      {/* Credit Score */}
+      <div className="flex items-center justify-between bg-slate-50 rounded-lg px-3 py-2">
+        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">RUFUS Score</span>
+        <span className="text-lg font-extrabold" style={{ color: scoreColor }}>
+          {application.rufusScore}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export default function QueueTable({ applications = mockApplications, onRowClick = () => {} }) {
+  const [hoveredId, setHoveredId] = useState(null);
   const displayApplications = applications.length > 0 ? applications : mockApplications;
 
   if (displayApplications.length === 0) {
@@ -149,9 +188,18 @@ export default function QueueTable({ applications = mockApplications, onRowClick
 
             {/* Business Info */}
             <div className="col-span-5">
-              <p className="text-sm font-bold text-blue-900 mb-1">
-                {application.businessName}
-              </p>
+              <div
+                className="relative inline-block"
+                onMouseEnter={() => setHoveredId(application.id)}
+                onMouseLeave={() => setHoveredId(null)}
+              >
+                <p className="text-sm font-bold text-blue-900 mb-1 cursor-pointer hover:text-rufus-cyan transition-colors">
+                  {application.businessName}
+                </p>
+                {hoveredId === application.id && (
+                  <BusinessTooltip application={application} />
+                )}
+              </div>
               <p className="text-xs text-slate-600 uppercase tracking-wider">
                 {application.businessType}
               </p>

@@ -15,6 +15,7 @@ import {
   Sparkles,
   Download,
   AlertTriangle,
+  Circle,
 } from 'lucide-react';
 
 // Sample data
@@ -199,25 +200,21 @@ const ScoreRing = ({ score }) => {
 };
 
 // Document Badge Component
-const DocumentBadge = ({ name, submitted }) => {
-  const icons = {
-    'Business Plan': '📄',
-    'Financial Statement': '📊',
-    'Business History': '🏢',
-  };
-
-  return (
-    <span
-      className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-semibold tracking-wide ${
-        submitted
-          ? 'bg-[#00C896]/15 text-[#00C896] border border-[#00C896]'
-          : 'bg-slate-200 text-slate-500 border border-slate-300'
-      }`}
-    >
-      {icons[name] || '📄'} {name}
-    </span>
-  );
-};
+const DocumentBadge = ({ name, submitted }) => (
+  <div
+    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide border ${
+      submitted
+        ? 'bg-[#00C896]/15 text-[#00C896] border-[#00C896]/40'
+        : 'bg-slate-100 text-slate-400 border-slate-200'
+    }`}
+  >
+    {submitted
+      ? <CheckCircle2 size={13} className="flex-shrink-0 text-[#00C896]" />
+      : <Circle size={13} className="flex-shrink-0 text-slate-400" />
+    }
+    <span className="flex-1 text-center">{name}</span>
+  </div>
+);
 
 // Score Bar Component with animation
 const ScoreBar = ({ label, score, isAnimating }) => {
@@ -416,7 +413,7 @@ const ApplicationsList = ({ applications, onViewDetail, searchQuery, setSearchQu
               </div>
 
               {/* Documents */}
-              <div className="flex gap-1 flex-wrap">
+              <div className="flex flex-col gap-1">
                 {[
                   { name: 'Business Plan', submitted: app.docs.plan },
                   { name: 'Financial Statement', submitted: app.docs.financial },
@@ -427,7 +424,7 @@ const ApplicationsList = ({ applications, onViewDetail, searchQuery, setSearchQu
               </div>
 
               {/* Status */}
-              <div>{getStatusBadge(app.status)}</div>
+              <div className="flex justify-center pl-4">{getStatusBadge(app.status)}</div>
 
               {/* Score */}
               <div className="flex justify-center">
@@ -575,9 +572,9 @@ const ApplicationDetail = ({ application, onBack }) => {
 
         <div className="space-y-6 mb-8">
           {[
-            { label: '📄 Business Plan', score: application.scores.plan },
-            { label: '📊 Financial Statement', score: application.scores.financial },
-            { label: '🏢 Business History', score: application.scores.history },
+            { label: 'Business Plan', score: application.scores.plan },
+            { label: 'Financial Statement', score: application.scores.financial },
+            { label: 'Business History', score: application.scores.history },
           ].map((item) => (
             <ScoreBar key={item.label} label={item.label} score={item.score} isAnimating={isAnimating} />
           ))}

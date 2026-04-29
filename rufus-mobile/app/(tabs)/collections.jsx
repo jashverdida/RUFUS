@@ -18,9 +18,9 @@ const PAYMENT_COLORS = {
 };
 
 const STATUS_CONFIG = {
-  current: { bg: Colors.greenLight, text: Colors.green, label: '✓ Current' },
-  due: { bg: Colors.amberLight, text: Colors.amber, label: '⚡ Due Soon' },
-  overdue: { bg: Colors.redLight, text: Colors.red, label: '⚠ Overdue' },
+  current: { bg: Colors.greenLight, text: Colors.green, label: 'Current' },
+  due: { bg: Colors.amberLight, text: Colors.amber, label: 'Due Soon' },
+  overdue: { bg: Colors.redLight, text: Colors.red, label: 'Overdue' },
 };
 
 const RISK_CONFIG = {
@@ -161,7 +161,7 @@ export default function CollectionsScreen() {
 
               <View style={styles.loanBottom}>
                 <View style={[styles.riskBadge, { backgroundColor: riskConf.bg }]}>
-                  <Text style={[styles.riskText, { color: riskConf.text }]}>{loan.risk}</Text>
+                  <Text style={[styles.riskText, { color: riskConf.text }]} numberOfLines={1}>{loan.risk}</Text>
                 </View>
                 <TouchableOpacity style={styles.remindBtn} onPress={() => openReminder(loan)}>
                   <Ionicons name="send-outline" size={14} color={Colors.white} />
@@ -182,7 +182,7 @@ export default function CollectionsScreen() {
               <View style={styles.riskCardTop}>
                 <Text style={styles.riskCardName}>{item.name}</Text>
                 <View style={[styles.riskBadge, { backgroundColor: riskConf.bg }]}>
-                  <Text style={[styles.riskText, { color: riskConf.text }]}>{item.risk}</Text>
+                  <Text style={[styles.riskText, { color: riskConf.text }]} numberOfLines={1}>{item.risk}</Text>
                 </View>
               </View>
               <Text style={[styles.likelihoodNum, { color: barColor }]}>{item.likelihood}%</Text>
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   dot: { width: 10, height: 10, borderRadius: 5 },
 
   loanBottom: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  riskBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999 },
+  riskBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, flexShrink: 0 },
   riskText: { fontSize: 11, fontWeight: '700' },
   remindBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 4,

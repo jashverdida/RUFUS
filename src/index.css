@@ -10,6 +10,7 @@ body {
   color: theme('colors.rufus.textMain');
   font-family: theme('fontFamily.sans');
   overflow-x: hidden;
+  zoom: 1.3333;
 }
 
 h1, h2, h3, h4, h5, h6, .font-space {

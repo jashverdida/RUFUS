@@ -85,11 +85,11 @@ export default function CollectionsView() {
   const getStatusColor = (status) => {
     switch (status) {
       case 'current':
-        return { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200', badge: 'bg-green-100', label: '✓ Current' };
+        return { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200', badge: 'bg-green-100', label: 'Current' };
       case 'due':
-        return { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', badge: 'bg-amber-100', label: '⚡ Due in 2 days' };
+        return { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', badge: 'bg-amber-100', label: 'Due in 2 days' };
       case 'overdue':
-        return { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200', badge: 'bg-red-100', label: '⚠ 7 days overdue' };
+        return { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200', badge: 'bg-red-100', label: '7 days overdue' };
       default:
         return { bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200', badge: 'bg-gray-100', label: 'N/A' };
     }
@@ -274,16 +274,16 @@ export default function CollectionsView() {
                       <td className="px-6 py-4 text-right font-mono text-blue-900">
                         ₱{loan.balance.toLocaleString()}
                       </td>
-                      <td className="px-6 py-4 text-blue-700">{loan.nextDue}</td>
+                      <td className="px-6 py-4 text-blue-700 whitespace-nowrap">{loan.nextDue}</td>
                       <td className="px-6 py-4">
                         <div
-                          className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${statusColor.badge} ${statusColor.text}`}
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${statusColor.badge} ${statusColor.text}`}
                         >
                           {loan.daysStatus === 'current'
-                            ? '✓ Current'
+                            ? 'Current'
                             : loan.daysStatus === 'due'
-                            ? `⚡ Due in ${loan.daysValue} days`
-                            : `⚠ ${loan.daysValue} days overdue`}
+                            ? `Due in ${loan.daysValue} days`
+                            : `${loan.daysValue} days overdue`}
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -302,7 +302,7 @@ export default function CollectionsView() {
                       </td>
                       <td className="px-6 py-4">
                         <div
-                          className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${riskBadge.bg} ${riskBadge.text}`}
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${riskBadge.bg} ${riskBadge.text}`}
                         >
                           {riskBadge.label}
                         </div>
@@ -313,7 +313,7 @@ export default function CollectionsView() {
                             onClick={() => handleSendReminder(loan)}
                             className="px-3 py-1 text-xs font-semibold text-cyan-700 border border-cyan-200 rounded-lg hover:bg-cyan-50 transition-colors"
                           >
-                            💬 Remind
+                            Remind
                           </button>
                           <button className="px-2 py-1 text-xs font-semibold text-blue-600 hover:bg-blue-100 rounded transition-colors">
                             <Eye size={14} />

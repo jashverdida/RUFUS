@@ -11,9 +11,9 @@ const formatPhp = (amount) =>
   new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: 0 }).format(amount);
 
 const DocBadge = ({ label, done }) => (
-  <View style={[styles.docBadge, { backgroundColor: done ? Colors.greenLight : Colors.redLight }]}>
-    <Ionicons name={done ? 'checkmark-circle' : 'close-circle'} size={12} color={done ? Colors.green : Colors.red} />
-    <Text style={[styles.docLabel, { color: done ? Colors.green : Colors.red }]}>{label}</Text>
+  <View style={[styles.docBadge, { backgroundColor: done ? Colors.greenLight : Colors.slate100 }]}>
+    <Ionicons name={done ? 'checkmark-circle' : 'ellipse-outline'} size={12} color={done ? Colors.green : Colors.slate400} />
+    <Text style={[styles.docLabel, { color: done ? Colors.green : Colors.slate400 }]}>{label}</Text>
   </View>
 );
 
