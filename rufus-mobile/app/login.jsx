@@ -46,7 +46,11 @@ export default function LoginScreen() {
 
   const handlePinPress = (digit) => {
     if (pin.length < 6) {
-      setPin(pin + digit);
+      const newPin = pin + digit;
+      setPin(newPin);
+      if (newPin.length === 6) {
+        handleLogin(newPin);
+      }
     }
   };
 
@@ -54,9 +58,9 @@ export default function LoginScreen() {
     setPin(pin.slice(0, -1));
   };
 
-  const handleLogin = async () => {
-    if (phone.length < 10 || pin.length !== 6) {
-      Alert.alert('Invalid Input', 'Please enter a valid phone number and 6-digit PIN');
+  const handleLogin = async (currentPin = pin) => {
+    if (currentPin.length !== 6) {
+      Alert.alert('Invalid PIN', 'Please enter a 6-digit PIN');
       return;
     }
 
@@ -224,9 +228,9 @@ export default function LoginScreen() {
 
           {/* Login Button */}
           <TouchableOpacity
-            style={[styles.loginButton, (phone.length < 10 || pin.length !== 6 || loading) && styles.loginButtonDisabled]}
-            onPress={handleLogin}
-            disabled={phone.length < 10 || pin.length !== 6 || loading}
+            style={[styles.loginButton, (pin.length !== 6 || loading) && styles.loginButtonDisabled]}
+            onPress={() => handleLogin()}
+            disabled={pin.length !== 6 || loading}
           >
             <Text style={styles.loginButtonText}>
               {loading ? 'Logging in...' : 'Login with PIN'}
