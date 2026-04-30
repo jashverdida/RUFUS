@@ -1,7 +1,9 @@
-import React from 'react';
-import { X } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Search } from 'lucide-react';
 
 const DigitalLedgerModal = ({ isOpen, onClose }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
   const dummyData = [
     {
       date: '04/28/26',
@@ -77,6 +79,15 @@ const DigitalLedgerModal = ({ isOpen, onClose }) => {
     },
   ];
 
+  const filteredData = dummyData.filter((entry) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      entry.date.toLowerCase().includes(query) ||
+      entry.orNumber.toLowerCase().includes(query) ||
+      entry.staffSignature.toLowerCase().includes(query)
+    );
+  });
+
   if (!isOpen) return null;
 
   return (
@@ -109,7 +120,19 @@ const DigitalLedgerModal = ({ isOpen, onClose }) => {
               </button>
             </div>
             {/* Gradient divider - cyan to blue */}
-            <div className="h-1 w-24 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full" />
+            <div className="h-1 w-24 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full mb-4" />
+            
+            {/* Search Bar */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search by date, OR number, or staff..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 border border-blue-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </div>
           </div>
 
           {/* Table Container - scrollable */}
@@ -147,36 +170,44 @@ const DigitalLedgerModal = ({ isOpen, onClose }) => {
 
                   {/* Table Body */}
                   <tbody className="divide-y divide-slate-100">
-                    {dummyData.map((entry, index) => (
-                      <tr
-                        key={index}
-                        className="bg-white hover:bg-slate-50 transition-colors duration-150"
-                      >
-                        <td className="px-6 py-4 text-sm text-slate-500">
-                          {entry.date}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-slate-500 font-medium">
-                          {entry.orNumber}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-slate-800 font-medium text-right">
-                          {entry.loanPayment}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-slate-800 font-medium text-right">
-                          {entry.cbuSavings}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-slate-800 font-semibold text-right">
-                          {entry.runningLoanBalance}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-emerald-700 font-semibold text-right">
-                          {entry.runningSavingsBalance}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-slate-700 font-medium">
-                          <span className="inline-block px-3 py-1.5 rounded-md bg-blue-50 border border-blue-200 text-blue-900 text-xs font-semibold">
-                            {entry.staffSignature}
-                          </span>
+                    {filteredData.length > 0 ? (
+                      filteredData.map((entry, index) => (
+                        <tr
+                          key={index}
+                          className="bg-white hover:bg-slate-50 transition-colors duration-150"
+                        >
+                          <td className="px-6 py-4 text-sm text-slate-500">
+                            {entry.date}
+                          </td>
+                          <td className="px-6 py-4 text-sm text-slate-500 font-medium">
+                            {entry.orNumber}
+                          </td>
+                          <td className="px-6 py-4 text-sm text-slate-800 font-medium text-right">
+                            {entry.loanPayment}
+                          </td>
+                          <td className="px-6 py-4 text-sm text-slate-800 font-medium text-right">
+                            {entry.cbuSavings}
+                          </td>
+                          <td className="px-6 py-4 text-sm text-slate-800 font-semibold text-right">
+                            {entry.runningLoanBalance}
+                          </td>
+                          <td className="px-6 py-4 text-sm text-emerald-700 font-semibold text-right">
+                            {entry.runningSavingsBalance}
+                          </td>
+                          <td className="px-6 py-4 text-sm text-slate-700 font-medium">
+                            <span className="inline-block px-3 py-1.5 rounded-md bg-blue-50 border border-blue-200 text-blue-900 text-xs font-semibold">
+                              {entry.staffSignature}
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="7" className="px-6 py-12 text-center text-sm text-slate-500">
+                          No transactions found matching your search.
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
