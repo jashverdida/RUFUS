@@ -81,6 +81,28 @@ export default function LoanerLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="landing"
+        options={{
+          title: 'Landing',
+          headerTitle: 'Welcome',
+          tabBarLabel: 'landing',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="triangle" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          headerTitle: 'Settings',
+          tabBarLabel: 'Settings',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings-outline" size={size} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

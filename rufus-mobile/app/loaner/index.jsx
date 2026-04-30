@@ -71,14 +71,19 @@ export default function DashboardScreen() {
               <Text style={styles.business}>{userData?.business}</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.notificationButton} onPress={handleNotificationPress}>
-            <Ionicons name="notifications" size={24} color={colors.teal} />
-            {notifications > 0 && (
-              <View style={styles.notificationBadge}>
-                <Text style={styles.notificationBadgeText}>{notifications}</Text>
-              </View>
-            )}
-          </TouchableOpacity>
+          <View style={styles.headerActions}>
+            <TouchableOpacity style={styles.notificationButton} onPress={handleNotificationPress}>
+              <Ionicons name="notifications" size={24} color={colors.teal} />
+              {notifications > 0 && (
+                <View style={styles.notificationBadge}>
+                  <Text style={styles.notificationBadgeText}>{notifications}</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.notificationButton} onPress={() => router.push('/loaner/settings')}>
+              <Ionicons name="settings-outline" size={24} color={colors.teal} />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.headerDivider} />
@@ -248,6 +253,11 @@ const styles = StyleSheet.create({
   business: {
     fontSize: 12,
     color: colors.textMuted,
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
   notificationButton: {
     position: 'relative',

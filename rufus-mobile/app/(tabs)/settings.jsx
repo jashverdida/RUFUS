@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { Colors } from '../../constants/colors';
 
 const SYS_INFO = [
@@ -23,6 +24,7 @@ const NOTIF_TOGGLES = [
 ];
 
 export default function SettingsScreen() {
+  const router = useRouter();
   const [toggles, setToggles] = useState({
     overdue: true, upcoming: true, newApp: true,
     aiDone: false, weekly: true, maintenance: false,
@@ -31,6 +33,12 @@ export default function SettingsScreen() {
   const [confidenceWeight, setConfidenceWeight] = useState(60);
 
   const toggle = (key) => setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  const handleLogout = () =>
+    Alert.alert('Logout', 'Are you sure you want to log out?', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Logout', style: 'destructive', onPress: () => router.replace('/login') },
+    ]);
 
   const handleClearCache = () =>
     Alert.alert(
@@ -170,6 +178,12 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
+        {/* Logout */}
+        <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
+          <Ionicons name="log-out-outline" size={20} color={Colors.danger} />
+          <Text style={styles.logoutText}>Logout</Text>
+        </TouchableOpacity>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -238,4 +252,11 @@ const styles = StyleSheet.create({
 
   dataBtn: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 4 },
   dataBtnText: { fontSize: 14, fontWeight: '700' },
+
+  logoutBtn: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
+    borderWidth: 1, borderColor: Colors.danger, borderRadius: 12,
+    padding: 14, marginBottom: 20,
+  },
+  logoutText: { fontSize: 15, fontWeight: '700', color: Colors.danger },
 });
