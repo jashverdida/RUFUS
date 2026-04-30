@@ -1,0 +1,392 @@
+<!-- FILE: mobile-loaners/documents.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUFUS - Documents</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .progress-indicator {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.08);
+    }
+
+    .progress-text {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      font-family: 'Outfit', sans-serif;
+      margin-bottom: 0.75rem;
+    }
+
+    .progress-bar-large {
+      width: 100%;
+      height: 12px;
+      background: var(--rufus-light-gray);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+
+    .progress-fill-large {
+      height: 100%;
+      background: linear-gradient(90deg, #0099CC 0%, #00C9E0 100%);
+      width: 75%;
+      transition: width 0.5s ease;
+      border-radius: 6px;
+    }
+
+    .progress-subtext {
+      font-size: 0.9rem;
+      color: var(--rufus-text-secondary);
+      font-weight: 500;
+    }
+
+    .documents-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .document-card {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1.25rem;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .document-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 153, 204, 0.12);
+    }
+
+    .document-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .document-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--rufus-text-body);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .document-badge {
+      padding: 0.35rem 0.875rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .badge-submitted {
+      background: rgba(0, 184, 148, 0.15);
+      color: var(--rufus-success);
+      border: 1px solid rgba(0, 184, 148, 0.3);
+    }
+
+    .badge-reviewing {
+      background: rgba(243, 156, 18, 0.15);
+      color: var(--rufus-warning);
+      border: 1px solid rgba(243, 156, 18, 0.3);
+    }
+
+    .badge-required {
+      background: rgba(231, 76, 60, 0.15);
+      color: var(--rufus-danger);
+      border: 1px solid rgba(231, 76, 60, 0.3);
+    }
+
+    .badge-approved {
+      background: rgba(0, 184, 148, 0.15);
+      color: var(--rufus-success);
+      border: 1px solid rgba(0, 184, 148, 0.3);
+    }
+
+    .document-description {
+      font-size: 0.9rem;
+      color: var(--rufus-text-secondary);
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .document-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .doc-btn {
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'DM Sans', sans-serif;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .doc-btn-primary {
+      background: linear-gradient(135deg, #0099CC 0%, #0B3D91 100%);
+      color: white;
+      box-shadow: 0 2px 8px rgba(0, 99, 153, 0.2);
+    }
+
+    .doc-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 99, 153, 0.3);
+    }
+
+    .doc-btn-secondary {
+      background: white;
+      border: 1.5px solid var(--rufus-secondary);
+      color: var(--rufus-secondary);
+    }
+
+    .doc-btn-secondary:hover {
+      background: var(--rufus-light-gray);
+    }
+
+    .upload-area {
+      border: 2px dashed var(--rufus-border);
+      border-radius: 12px;
+      padding: 2rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(0, 153, 204, 0.03);
+      margin-bottom: 1.5rem;
+    }
+
+    .upload-area:hover {
+      border-color: var(--rufus-secondary);
+      background: rgba(0, 153, 204, 0.08);
+    }
+
+    .upload-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .upload-text {
+      font-size: 0.95rem;
+      color: var(--rufus-text-body);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .upload-subtext {
+      font-size: 0.85rem;
+      color: var(--rufus-text-secondary);
+    }
+
+    .hidden-upload {
+      display: none;
+    }
+
+    .notes-section {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.08);
+    }
+
+    .notes-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--rufus-text-primary);
+      margin-bottom: 0.75rem;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .notes-textarea {
+      width: 100%;
+      padding: 0.875rem;
+      border: 1.5px solid var(--rufus-border);
+      border-radius: 8px;
+      background: white;
+      color: var(--rufus-text-body);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .notes-textarea:focus {
+      outline: none;
+      border-color: var(--rufus-secondary);
+      box-shadow: 0 0 0 3px rgba(0, 153, 204, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <!-- Header -->
+    <div class="page-header">
+      <a href="dashboard.html" class="page-header-back">← Documents</a>
+    </div>
+
+    <div class="page-content">
+      <!-- Progress Indicator -->
+      <div class="progress-indicator">
+        <div class="progress-text">3 of 4 Submitted</div>
+        <div class="progress-bar-large">
+          <div class="progress-fill-large" style="width: 75%;"></div>
+        </div>
+        <div class="progress-subtext">75% Complete</div>
+      </div>
+
+      <!-- Documents List -->
+      <div class="documents-list">
+        <!-- Document 1: Approved -->
+        <div class="document-card">
+          <div class="document-header">
+            <div class="document-title">📋 Business Plan</div>
+            <span class="document-badge badge-approved">✓ Approved</span>
+          </div>
+          <div class="document-description">
+            PDF or Image • Accepted formats: PDF, JPG, PNG, DOCX
+          </div>
+          <div class="document-actions">
+            <button class="doc-btn doc-btn-secondary" onclick="alert('Business Plan PDF will open...')">📥 View</button>
+            <button class="doc-btn doc-btn-secondary" onclick="document.getElementById('upload1').click()">↻ Replace</button>
+          </div>
+        </div>
+
+        <!-- Document 2: Submitted & Under Review -->
+        <div class="document-card">
+          <div class="document-header">
+            <div class="document-title">💰 Financial Statement</div>
+            <span class="document-badge badge-reviewing">⏳ Under Review</span>
+          </div>
+          <div class="document-description">
+            PDF or Spreadsheet • Accepted formats: PDF, XLSX, XLS, ODS
+          </div>
+          <div class="document-actions">
+            <button class="doc-btn doc-btn-secondary" onclick="alert('Financial Statement will open...')">📥 View</button>
+            <button class="doc-btn doc-btn-secondary" onclick="document.getElementById('upload2').click()">↻ Update</button>
+          </div>
+        </div>
+
+        <!-- Document 3: Approved -->
+        <div class="document-card">
+          <div class="document-header">
+            <div class="document-title">🏪 Business Permit</div>
+            <span class="document-badge badge-approved">✓ Approved</span>
+          </div>
+          <div class="document-description">
+            Image • Accepted formats: JPG, PNG, HEIC
+          </div>
+          <div class="document-actions">
+            <button class="doc-btn doc-btn-secondary" onclick="alert('Business Permit image will open...')">📥 View</button>
+            <button class="doc-btn doc-btn-secondary" onclick="document.getElementById('upload3').click()">↻ Replace</button>
+          </div>
+        </div>
+
+        <!-- Document 4: Required (Not yet submitted) -->
+        <div class="document-card">
+          <div class="document-header">
+            <div class="document-title">🆔 Valid ID</div>
+            <span class="document-badge badge-required">⚠️ Required</span>
+          </div>
+          <div class="document-description">
+            Government-issued ID • Accepted formats: JPG, PNG, HEIC
+          </div>
+          <div class="document-actions">
+            <button class="doc-btn doc-btn-primary" onclick="document.getElementById('upload4').click()">📤 Upload Now</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload Area (if needed for batch upload) -->
+      <div class="upload-area" onclick="document.getElementById('batchUpload').click()">
+        <div class="upload-icon">☁️</div>
+        <div class="upload-text">Tap to upload or take photo</div>
+        <div class="upload-subtext">Supports: PDF, JPG, PNG, DOCX</div>
+      </div>
+
+      <!-- Notes Section -->
+      <div class="notes-section">
+        <label class="notes-label">Additional Notes</label>
+        <textarea class="notes-textarea" placeholder="Add any additional information or context for your loan officer..."></textarea>
+      </div>
+
+      <!-- Hidden file inputs -->
+      <input type="file" id="upload1" class="hidden-upload" accept=".pdf,.jpg,.jpeg,.png,.docx" onchange="handleFileUpload(event, 'Business Plan')">
+      <input type="file" id="upload2" class="hidden-upload" accept=".pdf,.xlsx,.xls,.ods" onchange="handleFileUpload(event, 'Financial Statement')">
+      <input type="file" id="upload3" class="hidden-upload" accept=".jpg,.jpeg,.png,.heic" onchange="handleFileUpload(event, 'Business Permit')">
+      <input type="file" id="upload4" class="hidden-upload" accept=".jpg,.jpeg,.png,.heic" onchange="handleFileUpload(event, 'Valid ID')">
+      <input type="file" id="batchUpload" class="hidden-upload" accept=".pdf,.jpg,.jpeg,.png,.docx,.xlsx,.xls,.ods,.heic" multiple onchange="handleBatchUpload(event)">
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item" data-page="dashboard.html">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a href="payments.html" class="nav-item" data-page="payments.html">
+      <div class="nav-icon">📅</div>
+      <div class="nav-label">Payments</div>
+    </a>
+    <a href="documents.html" class="nav-item active" data-page="documents.html">
+      <div class="nav-icon">📄</div>
+      <div class="nav-label">Docs</div>
+    </a>
+    <a href="qr-profile.html" class="nav-item" data-page="qr-profile.html">
+      <div class="nav-icon">📱</div>
+      <div class="nav-label">QR</div>
+    </a>
+    <a href="notifications.html" class="nav-item" data-page="notifications.html">
+      <div class="nav-icon">🔔</div>
+      <div class="nav-label">Alerts</div>
+    </a>
+  </nav>
+
+  <script>
+    function handleFileUpload(event, documentName) {
+      const file = event.target.files[0];
+      if (file) {
+        console.log(`Uploading ${documentName}: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`);
+        alert(`${documentName} uploaded: ${file.name}\n\nSize: ${(file.size / 1024).toFixed(2)} KB\n\nIn a real app, this would be sent to the server.`);
+        // Reset the input
+        event.target.value = '';
+      }
+    }
+
+    function handleBatchUpload(event) {
+      const files = event.target.files;
+      if (files.length > 0) {
+        let fileList = '';
+        for (let i = 0; i < files.length; i++) {
+          fileList += `• ${files[i].name} (${(files[i].size / 1024).toFixed(2)} KB)\n`;
+        }
+        alert(`${files.length} file(s) selected for upload:\n\n${fileList}\n\nIn a real app, these would be sent to the server.`);
+        event.target.value = '';
+      }
+    }
+  </script>
+</body>
+</html>

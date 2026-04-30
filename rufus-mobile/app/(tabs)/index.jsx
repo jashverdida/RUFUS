@@ -39,9 +39,9 @@ export default function DashboardScreen() {
 
         {/* Stat Cards */}
         <View style={styles.statsRow}>
-          <StatCard title="Queue Size" value={queueSize} subtitle="+2 since yesterday" accentColor={Colors.cyan} />
-          <StatCard title="Approved Today" value={approvedToday} subtitle="50% approval rate" accentColor={Colors.green} />
-          <StatCard title="Needs Review" value={needsReview} subtitle="Awaiting assessment" accentColor={Colors.amber} />
+          <StatCard title="Queue Size" value={queueSize} subtitle="+2 since yesterday" accentColor={Colors.accent} />
+          <StatCard title="Approved Today" value={approvedToday} subtitle="50% approval rate" accentColor={Colors.success} />
+          <StatCard title="Needs Review" value={needsReview} subtitle="Awaiting assessment" accentColor={Colors.warning} />
         </View>
 
         {/* Underwriting Queue */}
@@ -75,10 +75,10 @@ export default function DashboardScreen() {
                 <View key={row.or} style={styles.ledgerRow}>
                   <Text style={styles.ledgerCell}>{row.date.slice(5)}</Text>
                   <Text style={styles.ledgerCell}>{row.or}</Text>
-                  <Text style={[styles.ledgerCell, { color: Colors.slate800, fontWeight: '700' }]}>{formatPhp(row.payment)}</Text>
-                  <Text style={[styles.ledgerCell, { color: Colors.slate800, fontWeight: '700' }]}>{formatPhp(row.cbu)}</Text>
+                  <Text style={[styles.ledgerCell, { color: Colors.textPrimary, fontWeight: '700' }]}>{formatPhp(row.payment)}</Text>
+                  <Text style={[styles.ledgerCell, { color: Colors.textPrimary, fontWeight: '700' }]}>{formatPhp(row.cbu)}</Text>
                   <Text style={[styles.ledgerCell, { color: Colors.primary, fontWeight: '700' }]}>{formatPhp(row.loanBal)}</Text>
-                  <Text style={[styles.ledgerCell, { color: Colors.cyan, fontWeight: '700' }]}>{formatPhp(row.savingsBal)}</Text>
+                  <Text style={[styles.ledgerCell, { color: Colors.accent, fontWeight: '700' }]}>{formatPhp(row.savingsBal)}</Text>
                   <View style={styles.staffBadge}><Text style={styles.staffText}>{row.staff}</Text></View>
                 </View>
               ))}
@@ -98,7 +98,7 @@ export default function DashboardScreen() {
                 <Text style={styles.modalSub}>Complete Transaction History</Text>
               </View>
               <TouchableOpacity onPress={() => setShowLedger(false)} style={styles.closeBtn}>
-                <Ionicons name="close" size={24} color={Colors.slate700} />
+                <Ionicons name="close" size={24} color={Colors.textSecondary} />
               </TouchableOpacity>
             </View>
 
@@ -115,19 +115,19 @@ export default function DashboardScreen() {
                       <View key={row.or} style={styles.ledgerRowFull}>
                         <Text style={styles.ledgerCellFull}>{row.date}</Text>
                         <Text style={styles.ledgerCellFull}>{row.or}</Text>
-                        <Text style={[styles.ledgerCellFull, { color: Colors.slate800, fontWeight: '700' }]}>{formatPhp(row.payment)}</Text>
-                        <Text style={[styles.ledgerCellFull, { color: Colors.slate800, fontWeight: '700' }]}>{formatPhp(row.cbu)}</Text>
+                        <Text style={[styles.ledgerCellFull, { color: Colors.textPrimary, fontWeight: '700' }]}>{formatPhp(row.payment)}</Text>
+                        <Text style={[styles.ledgerCellFull, { color: Colors.textPrimary, fontWeight: '700' }]}>{formatPhp(row.cbu)}</Text>
                         <Text style={[styles.ledgerCellFull, { color: Colors.primary, fontWeight: '700' }]}>{formatPhp(row.loanBal)}</Text>
-                        <Text style={[styles.ledgerCellFull, { color: Colors.cyan, fontWeight: '700' }]}>{formatPhp(row.savingsBal)}</Text>
+                        <Text style={[styles.ledgerCellFull, { color: Colors.accent, fontWeight: '700' }]}>{formatPhp(row.savingsBal)}</Text>
                         <View style={styles.staffBadge}><Text style={styles.staffText}>{row.staff}</Text></View>
                       </View>
                     ))}
                     {/* Totals */}
                     <View style={[styles.ledgerRowFull, styles.totalRow]}>
-                      <Text style={[styles.ledgerCellFull, { fontWeight: '800', color: Colors.slate800 }]}>TOTAL</Text>
+                      <Text style={[styles.ledgerCellFull, { fontWeight: '800', color: Colors.textPrimary }]}>TOTAL</Text>
                       <Text style={styles.ledgerCellFull} />
-                      <Text style={[styles.ledgerCellFull, { fontWeight: '800', color: Colors.slate800 }]}>{formatPhp(totalPayments)}</Text>
-                      <Text style={[styles.ledgerCellFull, { fontWeight: '800', color: Colors.slate800 }]}>{formatPhp(totalCbu)}</Text>
+                      <Text style={[styles.ledgerCellFull, { fontWeight: '800', color: Colors.textPrimary }]}>{formatPhp(totalPayments)}</Text>
+                      <Text style={[styles.ledgerCellFull, { fontWeight: '800', color: Colors.textPrimary }]}>{formatPhp(totalCbu)}</Text>
                       <Text style={styles.ledgerCellFull} />
                       <Text style={styles.ledgerCellFull} />
                       <Text style={styles.ledgerCellFull} />
@@ -144,61 +144,61 @@ export default function DashboardScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: Colors.slate50 },
+  safe: { flex: 1, backgroundColor: Colors.backgroundSecondary },
   scroll: { flex: 1 },
   content: { padding: 16, paddingBottom: 32 },
 
   statsRow: { flexDirection: 'row', marginBottom: 20 },
 
   sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12 },
-  sectionTitle: { fontSize: 18, fontWeight: '800', color: Colors.slate900 },
-  sectionSub: { fontSize: 12, color: Colors.slate500 },
+  sectionTitle: { fontSize: 18, fontWeight: '800', color: Colors.textPrimary },
+  sectionSub: { fontSize: 12, color: Colors.textSecondary },
   viewAllBtn: { flexDirection: 'row', alignItems: 'center', gap: 2 },
-  viewAllText: { fontSize: 13, color: Colors.primary, fontWeight: '600' },
+  viewAllText: { fontSize: 13, color: Colors.primaryLight, fontWeight: '600' },
 
   ledgerCard: {
-    backgroundColor: Colors.white, borderRadius: 12, overflow: 'hidden', marginBottom: 20,
+    backgroundColor: Colors.background, borderRadius: 12, overflow: 'hidden', marginBottom: 20,
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
   },
   ledgerHeader: {
-    flexDirection: 'row', backgroundColor: Colors.slate50,
-    paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.slate100,
+    flexDirection: 'row', backgroundColor: Colors.backgroundTertiary,
+    paddingHorizontal: 14, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.borderLight,
   },
-  ledgerCol: { width: 88, fontSize: 9, fontWeight: '700', color: Colors.slate500, textTransform: 'uppercase' },
+  ledgerCol: { width: 88, fontSize: 9, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase' },
   ledgerRow: {
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10,
-    borderBottomWidth: 1, borderBottomColor: Colors.slate100,
+    borderBottomWidth: 1, borderBottomColor: Colors.borderLight,
   },
-  ledgerCell: { width: 88, fontSize: 12, color: Colors.slate700 },
+  ledgerCell: { width: 88, fontSize: 12, color: Colors.textPrimary },
   staffBadge: {
     width: 88, alignItems: 'flex-start',
   },
   staffText: {
-    backgroundColor: Colors.slate100, borderRadius: 6,
+    backgroundColor: Colors.backgroundSecondary, borderRadius: 6,
     paddingHorizontal: 8, paddingVertical: 2,
-    fontSize: 11, fontWeight: '700', color: Colors.slate700,
+    fontSize: 11, fontWeight: '700', color: Colors.textSecondary,
   },
 
-  modalBg: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' },
-  modalContainer: { flex: 1, backgroundColor: Colors.white, marginTop: 60, borderTopLeftRadius: 20, borderTopRightRadius: 20 },
+  modalBg: { flex: 1, backgroundColor: 'rgba(10, 30, 80, 0.4)' },
+  modalContainer: { flex: 1, backgroundColor: Colors.background, marginTop: 60, borderTopLeftRadius: 20, borderTopRightRadius: 20 },
   modalHeader: {
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start',
-    padding: 20, borderBottomWidth: 1, borderBottomColor: Colors.slate100,
+    padding: 20, borderBottomWidth: 1, borderBottomColor: Colors.borderLight,
   },
-  modalTitle: { fontSize: 20, fontWeight: '800', color: Colors.slate900 },
-  modalSub: { fontSize: 13, color: Colors.slate500, marginTop: 2 },
+  modalTitle: { fontSize: 20, fontWeight: '800', color: Colors.textPrimary },
+  modalSub: { fontSize: 13, color: Colors.textSecondary, marginTop: 2 },
   closeBtn: { padding: 4 },
   modalContent: { padding: 16, paddingBottom: 32 },
 
   ledgerHeaderFull: {
-    flexDirection: 'row', backgroundColor: Colors.slate50,
-    paddingHorizontal: 12, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.slate100,
+    flexDirection: 'row', backgroundColor: Colors.backgroundTertiary,
+    paddingHorizontal: 12, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.borderLight,
   },
-  ledgerColFull: { width: 100, fontSize: 9, fontWeight: '700', color: Colors.slate500, textTransform: 'uppercase' },
+  ledgerColFull: { width: 100, fontSize: 9, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase' },
   ledgerRowFull: {
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 10,
-    borderBottomWidth: 1, borderBottomColor: Colors.slate100,
+    borderBottomWidth: 1, borderBottomColor: Colors.borderLight,
   },
-  ledgerCellFull: { width: 100, fontSize: 12, color: Colors.slate700 },
-  totalRow: { backgroundColor: Colors.slate50, borderTopWidth: 2, borderTopColor: Colors.slate200 },
+  ledgerCellFull: { width: 100, fontSize: 12, color: Colors.textPrimary },
+  totalRow: { backgroundColor: Colors.backgroundTertiary, borderTopWidth: 2, borderTopColor: Colors.borderLight },
 });

@@ -1,0 +1,364 @@
+<!-- FILE: mobile-loaners/qr-profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUFUS - My QR Code</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .qr-card {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 1px solid var(--rufus-border);
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 153, 204, 0.15);
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .qr-code {
+      width: 280px;
+      height: 280px;
+      background: white;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 2px solid var(--rufus-border);
+      overflow: hidden;
+    }
+
+    .qr-pattern {
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(0deg, rgba(0,153,204,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,153,204,0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-dots {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle, #0B3D91 1.5px, transparent 1.5px);
+      background-size: 25px 25px;
+      background-position: 0 0, 12px 12px;
+    }
+
+    .qr-center-logo {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      box-shadow: 0 4px 16px rgba(0, 153, 204, 0.2);
+      position: relative;
+      z-index: 10;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .profile-info {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 360px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.08);
+    }
+
+    .profile-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      margin-bottom: 0.5rem;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .profile-loanid {
+      font-size: 0.95rem;
+      color: var(--rufus-text-secondary);
+      font-weight: 500;
+      margin-bottom: 0.35rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .profile-loanid code {
+      background: var(--rufus-light-gray);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+      color: var(--rufus-primary);
+    }
+
+    .profile-branch {
+      font-size: 0.9rem;
+      color: var(--rufus-text-secondary);
+      font-weight: 500;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--rufus-border);
+    }
+
+    .qr-instruction {
+      background: linear-gradient(135deg, rgba(0, 99, 204, 0.1), rgba(0, 153, 204, 0.05));
+      border: 1px solid rgba(0, 153, 204, 0.2);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .qr-instruction-text {
+      font-size: 0.95rem;
+      color: var(--rufus-text-body);
+      line-height: 1.5;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      width: 100%;
+      max-width: 360px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.875rem 1rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'DM Sans', sans-serif;
+      min-width: 150px;
+    }
+
+    .action-btn-primary {
+      background: linear-gradient(135deg, #0099CC 0%, #0B3D91 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 99, 153, 0.3);
+    }
+
+    .action-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 99, 153, 0.4);
+    }
+
+    .action-btn-secondary {
+      background: white;
+      border: 1.5px solid var(--rufus-secondary);
+      color: var(--rufus-secondary);
+      box-shadow: 0 2px 8px rgba(0, 153, 204, 0.1);
+    }
+
+    .action-btn-secondary:hover {
+      background: var(--rufus-light-gray);
+      transform: translateY(-2px);
+    }
+
+    .last-scanned {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1rem;
+      width: 100%;
+      max-width: 360px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0, 153, 204, 0.08);
+    }
+
+    .last-scanned-label {
+      font-size: 0.85rem;
+      color: var(--rufus-text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 0.5rem;
+    }
+
+    .last-scanned-info {
+      font-size: 0.95rem;
+      color: var(--rufus-text-body);
+      font-weight: 500;
+    }
+
+    .last-scanned-detail {
+      font-size: 0.85rem;
+      color: var(--rufus-text-secondary);
+      margin-top: 0.35rem;
+    }
+
+    .security-note {
+      font-size: 0.8rem;
+      color: var(--rufus-text-secondary);
+      text-align: center;
+      font-style: italic;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    @media (max-width: 390px) {
+      .qr-card {
+        padding: 1.5rem;
+      }
+
+      .qr-code {
+        width: 240px;
+        height: 240px;
+      }
+
+      .qr-center-logo {
+        width: 50px;
+        height: 50px;
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <!-- Header -->
+    <div class="page-header">
+      <a href="dashboard.html" class="page-header-back">← My RUFUS ID</a>
+    </div>
+
+    <div class="page-content">
+      <div class="qr-container">
+        <!-- QR Code -->
+        <div class="qr-card">
+          <div class="qr-code">
+            <div class="qr-dots"></div>
+            <div class="qr-center-logo">R</div>
+          </div>
+        </div>
+
+        <!-- Profile Information -->
+        <div class="profile-info">
+          <div class="profile-name">Maria Dela Cruz</div>
+          <div class="profile-loanid">
+            Loan ID: <code>RAFI-2026-04821</code>
+          </div>
+          <div class="profile-branch">
+            🏢 RAFI Talisay Branch
+          </div>
+        </div>
+
+        <!-- Instruction -->
+        <div class="qr-instruction">
+          <div class="qr-instruction-text">
+            📱 Show this to your RAFI Loan Officer for instant profile access
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button class="action-btn action-btn-primary" onclick="shareQR()">📤 Share QR</button>
+          <button class="action-btn action-btn-secondary" onclick="downloadQR()">📥 Download</button>
+        </div>
+
+        <!-- Last Scanned -->
+        <div class="last-scanned">
+          <div class="last-scanned-label">Last Scanned</div>
+          <div class="last-scanned-info">Officer: Maria Santos</div>
+          <div class="last-scanned-detail">April 28, 2026 at 2:45 PM</div>
+        </div>
+
+        <!-- Security Note -->
+        <div class="security-note">
+          🔒 QR refreshes every 24 hours for security
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item" data-page="dashboard.html">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a href="payments.html" class="nav-item" data-page="payments.html">
+      <div class="nav-icon">📅</div>
+      <div class="nav-label">Payments</div>
+    </a>
+    <a href="documents.html" class="nav-item" data-page="documents.html">
+      <div class="nav-icon">📄</div>
+      <div class="nav-label">Docs</div>
+    </a>
+    <a href="qr-profile.html" class="nav-item active" data-page="qr-profile.html">
+      <div class="nav-icon">📱</div>
+      <div class="nav-label">QR</div>
+    </a>
+    <a href="notifications.html" class="nav-item" data-page="notifications.html">
+      <div class="nav-icon">🔔</div>
+      <div class="nav-label">Alerts</div>
+    </a>
+  </nav>
+
+  <script>
+    function shareQR() {
+      const qrText = 'RUFUS QR Code\nLoan ID: RAFI-2026-04821\nName: Maria Dela Cruz';
+      
+      // Check if Web Share API is available
+      if (navigator.share) {
+        navigator.share({
+          title: 'My RUFUS QR Code',
+          text: qrText,
+          url: window.location.href
+        }).catch(err => console.log('Share cancelled'));
+      } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(qrText).then(() => {
+          alert('QR information copied to clipboard!\n\n' + qrText);
+        }).catch(() => {
+          alert('Share feature not available on this device');
+        });
+      }
+    }
+
+    function downloadQR() {
+      // Create a canvas element to generate QR image
+      const canvas = document.querySelector('.qr-code');
+      
+      // Use HTML2Canvas or simple download simulation
+      alert('QR Code downloaded!\n\nFile: RUFUS_QR_RAFI-2026-04821.png\n\nIn a real app, this would generate and download a high-quality QR image.');
+      
+      // In production, you'd use: html2canvas, qrcode.js, or server-side generation
+    }
+  </script>
+</body>
+</html>

@@ -27,7 +27,7 @@ export default function QueueItem({ item, onPress }) {
           <StatusBadge status={item.aiStatus} />
         </View>
       </View>
-      <Ionicons name="chevron-forward" size={20} color={Colors.slate400} />
+      <Ionicons name="chevron-forward" size={20} color={Colors.textMuted} />
     </TouchableOpacity>
   );
 }
@@ -51,15 +51,15 @@ const styles = StyleSheet.create({
   businessName: {
     fontSize: 15,
     fontWeight: '700',
-    color: Colors.slate900,
+    color: Colors.textPrimary,
     marginBottom: 2,
   },
   businessType: {
     fontSize: 12,
-    color: Colors.slate500,
+    color: Colors.textSecondary,
     marginBottom: 6,
   },
   metaRow: { flexDirection: 'row', alignItems: 'center' },
   amount: { fontSize: 14, fontWeight: '700', color: Colors.primary },
-  score: { fontSize: 12, color: Colors.slate600 },
+  score: { fontSize: 12, color: Colors.textSecondary },
 });

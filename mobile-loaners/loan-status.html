@@ -1,0 +1,397 @@
+<!-- FILE: mobile-loaners/loan-status.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUFUS - Loan Status</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .status-badge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-pill {
+      padding: 0.5rem 1.25rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-active {
+      background: rgba(0, 184, 148, 0.15);
+      color: var(--rufus-success);
+      border: 1px solid rgba(0, 184, 148, 0.3);
+    }
+
+    .loan-info-card {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.12);
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--rufus-border);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .info-label {
+      font-size: 0.9rem;
+      color: var(--rufus-text-secondary);
+      font-weight: 500;
+    }
+
+    .info-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--rufus-text-body);
+      text-align: right;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      margin: 1.5rem 0 1rem 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .amortization-breakdown {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.12);
+    }
+
+    .breakdown-item {
+      margin-bottom: 1.25rem;
+    }
+
+    .breakdown-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--rufus-text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .breakdown-bar-container {
+      display: flex;
+      gap: 0.5rem;
+      height: 24px;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--rufus-light-gray);
+    }
+
+    .breakdown-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .principal-bar {
+      background: linear-gradient(90deg, #0099CC, #00C9E0);
+      width: 65%;
+    }
+
+    .interest-bar {
+      background: linear-gradient(90deg, #0B3D91, #0099CC);
+      width: 35%;
+    }
+
+    .payment-history-table {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.12);
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 1fr;
+      padding: 1rem;
+      border-bottom: 1px solid var(--rufus-border);
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .table-row:last-child {
+      border-bottom: none;
+    }
+
+    .table-row.header {
+      background: var(--rufus-light-gray);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--rufus-text-primary);
+    }
+
+    .table-row.paid {
+      background: rgba(0, 184, 148, 0.05);
+    }
+
+    .table-row.pending {
+      background: rgba(243, 156, 18, 0.05);
+    }
+
+    .table-cell {
+      font-size: 0.9rem;
+    }
+
+    .table-cell-date {
+      color: var(--rufus-text-secondary);
+      font-weight: 500;
+    }
+
+    .table-cell-amount {
+      font-weight: 700;
+      color: var(--rufus-text-body);
+    }
+
+    .table-cell-status {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .status-paid {
+      color: var(--rufus-success);
+    }
+
+    .status-pending {
+      color: var(--rufus-warning);
+    }
+
+    .status-missed {
+      color: var(--rufus-danger);
+    }
+
+    .download-btn {
+      width: 100%;
+      padding: 1rem;
+      background: white;
+      border: 1.5px solid var(--rufus-secondary);
+      color: var(--rufus-secondary);
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      margin-bottom: 2rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .download-btn:hover {
+      background: var(--rufus-light-gray);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <!-- Header -->
+    <div class="page-header">
+      <a href="dashboard.html" class="page-header-back">← Loan Details</a>
+    </div>
+
+    <div class="page-content">
+      <!-- Status Badge -->
+      <div class="status-badge-header">
+        <h2 style="margin: 0;">Loan Details</h2>
+        <span class="status-pill status-active">✓ Active</span>
+      </div>
+
+      <!-- Loan Information -->
+      <div class="loan-info-card">
+        <div class="info-row">
+          <span class="info-label">Loan ID</span>
+          <span class="info-value">RAFI-2026-04821</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Loan Type</span>
+          <span class="info-value">Business Loan</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Amount</span>
+          <span class="info-value">₱25,000.00</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Date Released</span>
+          <span class="info-value">Jan 15, 2026</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Loan Term</span>
+          <span class="info-value">12 Months</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Interest Rate</span>
+          <span class="info-value">2.5% Monthly</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Loan Officer</span>
+          <span class="info-value">Maria Santos</span>
+        </div>
+      </div>
+
+      <!-- Amortization Breakdown -->
+      <h3 class="section-title">Amortization Breakdown</h3>
+      <div class="amortization-breakdown">
+        <div class="breakdown-item">
+          <div class="breakdown-label">
+            <span>Principal</span>
+            <span>65% (₱16,250)</span>
+          </div>
+          <div class="breakdown-bar-container">
+            <div class="breakdown-bar principal-bar">65%</div>
+          </div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-label">
+            <span>Interest</span>
+            <span>35% (₱8,750)</span>
+          </div>
+          <div class="breakdown-bar-container">
+            <div class="breakdown-bar interest-bar">35%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment History -->
+      <h3 class="section-title">Payment History</h3>
+      <div class="payment-history-table">
+        <div class="table-row header">
+          <div class="table-cell">Due Date</div>
+          <div class="table-cell">Amount</div>
+          <div class="table-cell">Status</div>
+        </div>
+
+        <div class="table-row paid">
+          <div class="table-cell table-cell-date">Jan 15, 2026</div>
+          <div class="table-cell table-cell-amount">₱1,250.00</div>
+          <div class="table-cell table-cell-status status-paid">✓ Paid</div>
+        </div>
+
+        <div class="table-row paid">
+          <div class="table-cell table-cell-date">Feb 15, 2026</div>
+          <div class="table-cell table-cell-amount">₱1,250.00</div>
+          <div class="table-cell table-cell-status status-paid">✓ Paid</div>
+        </div>
+
+        <div class="table-row paid">
+          <div class="table-cell table-cell-date">Mar 15, 2026</div>
+          <div class="table-cell table-cell-amount">₱1,250.00</div>
+          <div class="table-cell table-cell-status status-paid">✓ Paid</div>
+        </div>
+
+        <div class="table-row paid">
+          <div class="table-cell table-cell-date">Apr 15, 2026</div>
+          <div class="table-cell table-cell-amount">₱1,250.00</div>
+          <div class="table-cell table-cell-status status-paid">✓ Paid</div>
+        </div>
+
+        <div class="table-row paid">
+          <div class="table-cell table-cell-date">Apr 28, 2026</div>
+          <div class="table-cell table-cell-amount">₱1,250.00</div>
+          <div class="table-cell table-cell-status status-paid">✓ Paid</div>
+        </div>
+
+        <div class="table-row pending">
+          <div class="table-cell table-cell-date">May 5, 2026</div>
+          <div class="table-cell table-cell-amount">₱1,250.00</div>
+          <div class="table-cell table-cell-status status-pending">⏱ Upcoming</div>
+        </div>
+
+        <div class="table-row pending">
+          <div class="table-cell table-cell-date">Jun 5, 2026</div>
+          <div class="table-cell table-cell-amount">₱1,250.00</div>
+          <div class="table-cell table-cell-status status-pending">⏱ Upcoming</div>
+        </div>
+
+        <div class="table-row pending">
+          <div class="table-cell table-cell-date">Jul 5, 2026</div>
+          <div class="table-cell table-cell-amount">₱1,250.00</div>
+          <div class="table-cell table-cell-status status-pending">⏱ Upcoming</div>
+        </div>
+      </div>
+
+      <button class="download-btn" onclick="alert('Statement download coming soon...')">📥 Download Statement</button>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item" data-page="dashboard.html">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a href="payments.html" class="nav-item" data-page="payments.html">
+      <div class="nav-icon">📅</div>
+      <div class="nav-label">Payments</div>
+    </a>
+    <a href="documents.html" class="nav-item" data-page="documents.html">
+      <div class="nav-icon">📄</div>
+      <div class="nav-label">Docs</div>
+    </a>
+    <a href="qr-profile.html" class="nav-item" data-page="qr-profile.html">
+      <div class="nav-icon">📱</div>
+      <div class="nav-label">QR</div>
+    </a>
+    <a href="notifications.html" class="nav-item" data-page="notifications.html">
+      <div class="nav-icon">🔔</div>
+      <div class="nav-label">Alerts</div>
+    </a>
+  </nav>
+
+  <script>
+    // Active nav detection
+    document.querySelectorAll('.nav-item').forEach(item => {
+      if (item.getAttribute('data-page') === 'loan-status.html' || 
+          (window.location.pathname.includes('loan-status.html'))) {
+        item.classList.add('active');
+      }
+    });
+
+    // Auto-detect current page for nav highlighting
+    const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const dataPage = item.getAttribute('data-page');
+      if (dataPage === currentPage || (currentPage === '' && dataPage === 'dashboard.html')) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

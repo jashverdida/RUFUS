@@ -1,0 +1,441 @@
+<!-- FILE: mobile-loaners/payments.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUFUS - Payment Schedule</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .payment-summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-card {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.08);
+    }
+
+    .summary-label {
+      font-size: 0.85rem;
+      color: var(--rufus-text-secondary);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .payment-month-header {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      margin: 1.5rem 0 1rem 0;
+      font-family: 'Outfit', sans-serif;
+      padding: 0 0.5rem;
+    }
+
+    .payment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .payment-row {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 12px;
+      border: 1px solid var(--rufus-border);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 153, 204, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .payment-row:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 153, 204, 0.12);
+    }
+
+    .payment-row.overdue {
+      background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
+      border-color: rgba(231, 76, 60, 0.3);
+    }
+
+    .payment-row.upcoming {
+      background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.05));
+      border-color: rgba(243, 156, 18, 0.3);
+    }
+
+    .payment-row.paid {
+      background: linear-gradient(135deg, rgba(0, 184, 148, 0.1), rgba(0, 184, 148, 0.05));
+      border-color: rgba(0, 184, 148, 0.3);
+      opacity: 0.8;
+    }
+
+    .payment-info {
+      flex: 1;
+    }
+
+    .payment-date {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--rufus-text-body);
+      margin-bottom: 0.25rem;
+    }
+
+    .payment-status-text {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--rufus-text-secondary);
+    }
+
+    .payment-row.overdue .payment-status-text {
+      color: var(--rufus-danger);
+    }
+
+    .payment-row.upcoming .payment-status-text {
+      color: var(--rufus-warning);
+    }
+
+    .payment-row.paid .payment-status-text {
+      color: var(--rufus-success);
+    }
+
+    .payment-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+
+    .payment-amount {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .payment-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .toggle-switch-small {
+      position: relative;
+      display: inline-block;
+      width: 45px;
+      height: 25px;
+    }
+
+    .toggle-switch-small input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toggle-slider-small {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--rufus-light-gray);
+      transition: 0.3s;
+      border-radius: 25px;
+      border: none;
+    }
+
+    .toggle-slider-small:before {
+      position: absolute;
+      content: '';
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    input.reminder-toggle:checked + .toggle-slider-small {
+      background-color: var(--rufus-secondary);
+    }
+
+    input.reminder-toggle:checked + .toggle-slider-small:before {
+      transform: translateX(20px);
+    }
+
+    .reminder-label {
+      font-size: 0.75rem;
+      color: var(--rufus-text-secondary);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .summary-footer {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.08);
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--rufus-border);
+    }
+
+    .footer-row:last-child {
+      border-bottom: none;
+      padding-top: 0.5rem;
+      margin-top: 0.5rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--rufus-primary);
+    }
+
+    .footer-label {
+      color: var(--rufus-text-secondary);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .footer-value {
+      color: var(--rufus-text-body);
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <!-- Header -->
+    <div class="page-header">
+      <a href="dashboard.html" class="page-header-back">← Payment Schedule</a>
+    </div>
+
+    <div class="page-content">
+      <!-- Summary Cards -->
+      <div class="payment-summary">
+        <div class="summary-card">
+          <div class="summary-label">Total Remaining</div>
+          <div class="summary-value">₱8,750.00</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Payments Left</div>
+          <div class="summary-value">7</div>
+        </div>
+      </div>
+
+      <!-- May 2026 -->
+      <div class="payment-month-header">May 2026</div>
+      <div class="payment-list">
+        <div class="payment-row upcoming">
+          <div class="payment-info">
+            <div class="payment-date">May 2, 2026</div>
+            <div class="payment-status-text">⏱ Payment Due Soon</div>
+          </div>
+          <div class="payment-right">
+            <div class="payment-amount">₱1,250.00</div>
+            <div class="payment-actions">
+              <label class="toggle-switch-small">
+                <input type="checkbox" class="reminder-toggle">
+                <span class="toggle-slider-small"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-row upcoming">
+          <div class="payment-info">
+            <div class="payment-date">May 5, 2026</div>
+            <div class="payment-status-text">⏱ Upcoming</div>
+          </div>
+          <div class="payment-right">
+            <div class="payment-amount">₱1,250.00</div>
+            <div class="payment-actions">
+              <label class="toggle-switch-small">
+                <input type="checkbox" class="reminder-toggle" checked>
+                <span class="toggle-slider-small"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- June 2026 -->
+      <div class="payment-month-header">June 2026</div>
+      <div class="payment-list">
+        <div class="payment-row upcoming">
+          <div class="payment-info">
+            <div class="payment-date">June 5, 2026</div>
+            <div class="payment-status-text">⏱ Upcoming</div>
+          </div>
+          <div class="payment-right">
+            <div class="payment-amount">₱1,250.00</div>
+            <div class="payment-actions">
+              <label class="toggle-switch-small">
+                <input type="checkbox" class="reminder-toggle">
+                <span class="toggle-slider-small"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- July 2026 -->
+      <div class="payment-month-header">July 2026</div>
+      <div class="payment-list">
+        <div class="payment-row upcoming">
+          <div class="payment-info">
+            <div class="payment-date">July 5, 2026</div>
+            <div class="payment-status-text">⏱ Upcoming</div>
+          </div>
+          <div class="payment-right">
+            <div class="payment-amount">₱1,250.00</div>
+            <div class="payment-actions">
+              <label class="toggle-switch-small">
+                <input type="checkbox" class="reminder-toggle">
+                <span class="toggle-slider-small"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- August 2026 -->
+      <div class="payment-month-header">August 2026</div>
+      <div class="payment-list">
+        <div class="payment-row upcoming">
+          <div class="payment-info">
+            <div class="payment-date">August 5, 2026</div>
+            <div class="payment-status-text">⏱ Upcoming</div>
+          </div>
+          <div class="payment-right">
+            <div class="payment-amount">₱1,250.00</div>
+            <div class="payment-actions">
+              <label class="toggle-switch-small">
+                <input type="checkbox" class="reminder-toggle">
+                <span class="toggle-slider-small"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- September 2026 -->
+      <div class="payment-month-header">September 2026</div>
+      <div class="payment-list">
+        <div class="payment-row upcoming">
+          <div class="payment-info">
+            <div class="payment-date">September 5, 2026</div>
+            <div class="payment-status-text">⏱ Upcoming</div>
+          </div>
+          <div class="payment-right">
+            <div class="payment-amount">₱1,250.00</div>
+            <div class="payment-actions">
+              <label class="toggle-switch-small">
+                <input type="checkbox" class="reminder-toggle">
+                <span class="toggle-slider-small"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-row upcoming">
+          <div class="payment-info">
+            <div class="payment-date">September 15, 2026</div>
+            <div class="payment-status-text">⏱ Final Payment</div>
+          </div>
+          <div class="payment-right">
+            <div class="payment-amount">₱250.00</div>
+            <div class="payment-actions">
+              <label class="toggle-switch-small">
+                <input type="checkbox" class="reminder-toggle">
+                <span class="toggle-slider-small"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Footer -->
+      <div class="summary-footer">
+        <div class="footer-row">
+          <span class="footer-label">Total Loan</span>
+          <span class="footer-value">₱25,000.00</span>
+        </div>
+        <div class="footer-row">
+          <span class="footer-label">Paid to Date</span>
+          <span class="footer-value">₱16,250.00</span>
+        </div>
+        <div class="footer-row">
+          <span class="footer-label">Next Due</span>
+          <span class="footer-value">May 2, 2026 • ₱1,250.00</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item" data-page="dashboard.html">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a href="payments.html" class="nav-item active" data-page="payments.html">
+      <div class="nav-icon">📅</div>
+      <div class="nav-label">Payments</div>
+    </a>
+    <a href="documents.html" class="nav-item" data-page="documents.html">
+      <div class="nav-icon">📄</div>
+      <div class="nav-label">Docs</div>
+    </a>
+    <a href="qr-profile.html" class="nav-item" data-page="qr-profile.html">
+      <div class="nav-icon">📱</div>
+      <div class="nav-label">QR</div>
+    </a>
+    <a href="notifications.html" class="nav-item" data-page="notifications.html">
+      <div class="nav-icon">🔔</div>
+      <div class="nav-label">Alerts</div>
+    </a>
+  </nav>
+
+  <script>
+    // Reminder toggle persistence
+    document.querySelectorAll('.reminder-toggle').forEach(toggle => {
+      toggle.addEventListener('change', function() {
+        const date = this.closest('.payment-row').querySelector('.payment-date').textContent;
+        const isChecked = this.checked;
+        console.log(`Reminder for ${date}: ${isChecked ? 'ON' : 'OFF'}`);
+        // In a real app, this would persist to a database
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!-- FILE: mobile-loaners/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUFUS - Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .login-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: slideUp 0.6s ease;
+    }
+
+    .logo-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, #0099CC 0%, #0B3D91 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 8px 25px rgba(0, 99, 153, 0.3);
+    }
+
+    .logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .tagline {
+      font-family: 'DM Sans', sans-serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--rufus-secondary);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .login-form {
+      width: 100%;
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 30px rgba(0, 153, 204, 0.15);
+      border: 1px solid var(--rufus-border);
+      margin-bottom: 2rem;
+      animation: slideUp 0.8s ease 0.1s both;
+    }
+
+    .form-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: var(--rufus-text-primary);
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .phone-input {
+      width: 100%;
+      padding: 0.875rem;
+      border: 1.5px solid var(--rufus-border);
+      border-radius: 12px;
+      background: white;
+      font-size: 1rem;
+      color: var(--rufus-text-body);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .phone-input:focus {
+      outline: none;
+      border-color: var(--rufus-secondary);
+      box-shadow: 0 0 0 3px rgba(0, 153, 204, 0.1);
+    }
+
+    .pin-display {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      height: 50px;
+      align-items: center;
+    }
+
+    .pin-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: transparent;
+      border: 2px solid var(--rufus-border);
+      transition: all 0.2s ease;
+    }
+
+    .pin-dot.filled {
+      background: var(--rufus-secondary);
+      border-color: var(--rufus-secondary);
+      box-shadow: 0 0 8px rgba(0, 153, 204, 0.4);
+    }
+
+    .pin-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pin-button {
+      aspect-ratio: 1 / 1;
+      border: 1.5px solid var(--rufus-border);
+      background: white;
+      border-radius: 12px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--rufus-primary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .pin-button:active {
+      background: var(--rufus-light-gray);
+      transform: scale(0.95);
+    }
+
+    .pin-button.backspace {
+      font-size: 1.5rem;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #0099CC 0%, #0B3D91 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(0, 99, 153, 0.3);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .login-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 99, 153, 0.4);
+    }
+
+    .login-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .signup-link a {
+      color: var(--rufus-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: opacity 0.2s ease;
+      cursor: pointer;
+    }
+
+    .signup-link a:hover {
+      opacity: 0.7;
+      text-decoration: underline;
+    }
+
+    .powered-by {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--rufus-gray);
+      font-weight: 500;
+    }
+
+    @media (max-height: 800px) {
+      .logo-section {
+        margin-bottom: 1.5rem;
+      }
+      .login-form {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo-section">
+      <div class="logo-icon">R</div>
+      <div class="logo-text">RUFUS</div>
+      <div class="tagline">"Your loan. Your way. Simplified."</div>
+    </div>
+
+    <form class="login-form" id="loginForm">
+      <div class="form-title">Enter Your Details</div>
+
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input 
+          type="tel" 
+          class="phone-input" 
+          id="phoneInput" 
+          placeholder="09XXXXXXXXX"
+          maxlength="11"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">6-Digit PIN</label>
+        <div class="pin-display" id="pinDisplay">
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+          <div class="pin-dot"></div>
+        </div>
+      </div>
+
+      <div class="pin-pad" id="pinPad">
+        <button type="button" class="pin-button">1</button>
+        <button type="button" class="pin-button">2</button>
+        <button type="button" class="pin-button">3</button>
+        <button type="button" class="pin-button">4</button>
+        <button type="button" class="pin-button">5</button>
+        <button type="button" class="pin-button">6</button>
+        <button type="button" class="pin-button">7</button>
+        <button type="button" class="pin-button">8</button>
+        <button type="button" class="pin-button">9</button>
+        <button type="button" class="pin-button">*</button>
+        <button type="button" class="pin-button">0</button>
+        <button type="button" class="pin-button backspace">⌫</button>
+      </div>
+
+      <button type="submit" class="login-button" id="loginBtn" disabled>
+        Login with PIN
+      </button>
+    </form>
+
+    <div class="signup-link">
+      <span>New Applicant?</span><br>
+      <a href="#" onclick="alert('Apply form will open'); return false;">Apply Here →</a>
+    </div>
+  </div>
+
+  <div class="powered-by">
+    Powered by RAFI × VERPTO
+  </div>
+
+  <script>
+    const phoneInput = document.getElementById('phoneInput');
+    const pinButtons = document.querySelectorAll('#pinPad .pin-button');
+    const pinDots = document.querySelectorAll('.pin-dot');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginForm = document.getElementById('loginForm');
+    
+    let pinValue = '';
+
+    // PIN Button Click Handler
+    pinButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const value = button.textContent;
+
+        if (value === '⌫') {
+          // Backspace
+          pinValue = pinValue.slice(0, -1);
+        } else if (pinValue.length < 6) {
+          pinValue += value;
+        }
+
+        updatePinDisplay();
+        checkFormValidity();
+      });
+    });
+
+    // Update PIN Display (dots)
+    function updatePinDisplay() {
+      pinDots.forEach((dot, index) => {
+        if (index < pinValue.length) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      });
+    }
+
+    // Check if form is valid
+    function checkFormValidity() {
+      const isPhoneValid = phoneInput.value.length >= 10;
+      const isPinValid = pinValue.length === 6;
+      loginBtn.disabled = !(isPhoneValid && isPinValid);
+    }
+
+    phoneInput.addEventListener('input', checkFormValidity);
+
+    // Form Submit
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const phone = phoneInput.value;
+      const pin = pinValue;
+
+      // Simulate login
+      loginBtn.textContent = 'Logging in...';
+      loginBtn.disabled = true;
+
+      setTimeout(() => {
+        // Store user data in sessionStorage
+        sessionStorage.setItem('userPhone', phone);
+        sessionStorage.setItem('userName', 'Maria Dela Cruz'); // Hardcoded for demo
+        sessionStorage.setItem('loanId', 'RAFI-2026-04821');
+        
+        // Redirect to dashboard
+        window.location.href = 'dashboard.html';
+      }, 1500);
+    });
+
+    // Clear PIN when phone input changes (optional)
+    phoneInput.addEventListener('change', () => {
+      pinValue = '';
+      updatePinDisplay();
+    });
+  </script>
+</body>
+</html>

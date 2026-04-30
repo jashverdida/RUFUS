@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 11,
-    color: Colors.slate600,
+    color: Colors.textSecondary,
     fontWeight: '600',
     marginBottom: 6,
   },
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 10,
-    color: Colors.slate500,
+    color: Colors.textSecondary,
   },
 });

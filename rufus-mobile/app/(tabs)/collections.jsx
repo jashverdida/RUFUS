@@ -11,22 +11,22 @@ const formatPhp = (amount) =>
   new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: 0 }).format(amount);
 
 const PAYMENT_COLORS = {
-  paid: Colors.green,
-  late: Colors.amber,
-  missed: Colors.red,
-  upcoming: Colors.slate300,
+  paid: Colors.success,
+  late: Colors.warning,
+  missed: Colors.danger,
+  upcoming: Colors.backgroundSecondary,
 };
 
 const STATUS_CONFIG = {
-  current: { bg: Colors.greenLight, text: Colors.green, label: 'Current' },
-  due: { bg: Colors.amberLight, text: Colors.amber, label: 'Due Soon' },
-  overdue: { bg: Colors.redLight, text: Colors.red, label: 'Overdue' },
+  current: { bg: Colors.successBg, text: Colors.success, label: 'Current' },
+  due: { bg: Colors.warningBg, text: Colors.warning, label: 'Due Soon' },
+  overdue: { bg: Colors.dangerBg, text: Colors.danger, label: 'Overdue' },
 };
 
 const RISK_CONFIG = {
-  'Low Risk': { bg: Colors.greenLight, text: Colors.green },
-  'Watch': { bg: Colors.amberLight, text: Colors.amber },
-  'High Risk': { bg: Colors.redLight, text: Colors.red },
+  'Low Risk': { bg: Colors.successBg, text: Colors.success },
+  'Watch': { bg: Colors.warningBg, text: Colors.warning },
+  'High Risk': { bg: Colors.dangerBg, text: Colors.danger },
 };
 
 const loansData = [
@@ -104,9 +104,9 @@ export default function CollectionsScreen() {
         <View style={styles.kpiRow}>
           {[
             { label: 'Total Loans', value: total, icon: 'wallet-outline', color: Colors.primary },
-            { label: 'Current', value: current, icon: 'checkmark-circle-outline', color: Colors.green },
-            { label: 'Due This Week', value: due, icon: 'time-outline', color: Colors.amber },
-            { label: 'Overdue', value: overdue, icon: 'alert-triangle', color: Colors.red },
+            { label: 'Current', value: current, icon: 'checkmark-circle-outline', color: Colors.success },
+            { label: 'Due This Week', value: due, icon: 'time-outline', color: Colors.warning },
+            { label: 'Overdue', value: overdue, icon: 'alert-triangle', color: Colors.danger },
           ].map((k) => (
             <View key={k.label} style={[styles.kpiCard, { borderTopColor: k.color }]}>
               <Ionicons name={k.icon} size={18} color={k.color} />
@@ -176,7 +176,7 @@ export default function CollectionsScreen() {
         <Text style={styles.sectionTitle}>AI Collections Risk Predictor</Text>
         {RISK_PREDICTOR.map((item) => {
           const riskConf = RISK_CONFIG[item.risk];
-          const barColor = item.likelihood >= 60 ? Colors.red : Colors.amber;
+          const barColor = item.likelihood >= 60 ? Colors.danger : Colors.warning;
           return (
             <View key={item.id} style={styles.riskCard}>
               <View style={styles.riskCardTop}>
@@ -248,39 +248,39 @@ export default function CollectionsScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: Colors.slate50 },
+  safe: { flex: 1, backgroundColor: Colors.backgroundSecondary },
   scroll: { flex: 1 },
   content: { padding: 16, paddingBottom: 32 },
 
   kpiRow: { flexDirection: 'row', gap: 8, marginBottom: 20 },
   kpiCard: {
-    flex: 1, backgroundColor: Colors.white, borderRadius: 10,
+    flex: 1, backgroundColor: Colors.background, borderRadius: 10,
     padding: 10, borderTopWidth: 3, alignItems: 'center',
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05, shadowRadius: 3, elevation: 2,
   },
   kpiValue: { fontSize: 20, fontWeight: '800', marginTop: 4 },
-  kpiLabel: { fontSize: 9, color: Colors.slate500, marginTop: 2, fontWeight: '600', textAlign: 'center' },
+  kpiLabel: { fontSize: 9, color: Colors.textSecondary, marginTop: 2, fontWeight: '600', textAlign: 'center' },
 
-  sectionTitle: { fontSize: 16, fontWeight: '800', color: Colors.slate900, marginBottom: 12 },
+  sectionTitle: { fontSize: 16, fontWeight: '800', color: Colors.textPrimary, marginBottom: 12 },
 
   loanCard: {
-    backgroundColor: Colors.white, borderRadius: 12, padding: 14, marginBottom: 12,
+    backgroundColor: Colors.background, borderRadius: 12, padding: 14, marginBottom: 12,
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
   },
   loanTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 },
   loanInfo: { flex: 1, marginRight: 8 },
-  loanName: { fontSize: 14, fontWeight: '700', color: Colors.slate900 },
-  loanCategory: { fontSize: 11, color: Colors.slate500, marginTop: 2 },
+  loanName: { fontSize: 14, fontWeight: '700', color: Colors.textPrimary },
+  loanCategory: { fontSize: 11, color: Colors.textSecondary, marginTop: 2 },
   statusBadge: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 999 },
   statusText: { fontSize: 11, fontWeight: '700' },
 
   loanMid: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
-  loanMetaLabel: { fontSize: 10, color: Colors.slate400, fontWeight: '600', marginBottom: 2 },
-  loanMetaValue: { fontSize: 13, fontWeight: '700', color: Colors.slate800 },
+  loanMetaLabel: { fontSize: 10, color: Colors.textMuted, fontWeight: '600', marginBottom: 2 },
+  loanMetaValue: { fontSize: 13, fontWeight: '700', color: Colors.textPrimary },
 
   historyRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-  historyLabel: { fontSize: 11, color: Colors.slate500, marginRight: 8 },
+  historyLabel: { fontSize: 11, color: Colors.textSecondary, marginRight: 8 },
   dots: { flexDirection: 'row', gap: 4 },
   dot: { width: 10, height: 10, borderRadius: 5 },
 
@@ -291,17 +291,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: 4,
     backgroundColor: Colors.primary, paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8,
   },
-  remindBtnText: { color: Colors.white, fontSize: 12, fontWeight: '700' },
+  remindBtnText: { color: Colors.background, fontSize: 12, fontWeight: '700' },
 
   riskCard: {
-    backgroundColor: Colors.white, borderRadius: 12, padding: 16, marginBottom: 12,
+    backgroundColor: Colors.background, borderRadius: 12, padding: 16, marginBottom: 12,
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
   },
   riskCardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
-  riskCardName: { fontSize: 14, fontWeight: '700', color: Colors.slate900, flex: 1, marginRight: 8 },
+  riskCardName: { fontSize: 14, fontWeight: '700', color: Colors.textPrimary, flex: 1, marginRight: 8 },
   likelihoodNum: { fontSize: 36, fontWeight: '800' },
-  likelihoodLabel: { fontSize: 12, color: Colors.slate500, marginBottom: 10 },
-  riskBarBg: { height: 8, backgroundColor: Colors.slate100, borderRadius: 4, marginBottom: 12, overflow: 'hidden' },
+  likelihoodLabel: { fontSize: 12, color: Colors.textSecondary, marginBottom: 10 },
+  riskBarBg: { height: 8, backgroundColor: Colors.backgroundSecondary, borderRadius: 4, marginBottom: 12, overflow: 'hidden' },
   riskBarFill: { height: 8, borderRadius: 4 },
   flagBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 6,
@@ -310,36 +310,36 @@ const styles = StyleSheet.create({
   },
   flagBtnText: { fontSize: 12, fontWeight: '700' },
 
-  modalBg: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+  modalBg: { flex: 1, backgroundColor: 'rgba(10, 30, 80, 0.4)', justifyContent: 'flex-end' },
   modalBox: {
-    backgroundColor: Colors.white, borderTopLeftRadius: 20, borderTopRightRadius: 20,
+    backgroundColor: Colors.background, borderTopLeftRadius: 20, borderTopRightRadius: 20,
     padding: 20, paddingBottom: 36,
   },
-  modalTitle: { fontSize: 18, fontWeight: '800', color: Colors.slate900, marginBottom: 12 },
+  modalTitle: { fontSize: 18, fontWeight: '800', color: Colors.textPrimary, marginBottom: 12 },
   modalLoanInfo: {
-    backgroundColor: Colors.slate50, borderRadius: 10, padding: 12, marginBottom: 14,
+    backgroundColor: Colors.backgroundSecondary, borderRadius: 10, padding: 12, marginBottom: 14,
   },
-  modalLoanName: { fontSize: 14, fontWeight: '700', color: Colors.slate800 },
-  modalLoanDue: { fontSize: 12, color: Colors.slate500, marginTop: 2 },
+  modalLoanName: { fontSize: 14, fontWeight: '700', color: Colors.textPrimary },
+  modalLoanDue: { fontSize: 12, color: Colors.textSecondary, marginTop: 2 },
   methodRow: { flexDirection: 'row', gap: 8, marginBottom: 12 },
   methodTab: {
     flex: 1, paddingVertical: 8, borderRadius: 8,
-    borderWidth: 1, borderColor: Colors.slate200, alignItems: 'center',
+    borderWidth: 1, borderColor: Colors.borderLight, alignItems: 'center',
   },
   methodTabActive: { backgroundColor: Colors.primary, borderColor: Colors.primary },
-  methodTabText: { fontSize: 13, fontWeight: '600', color: Colors.slate600 },
-  methodTabTextActive: { color: Colors.white },
+  methodTabText: { fontSize: 13, fontWeight: '600', color: Colors.textSecondary },
+  methodTabTextActive: { color: Colors.background },
   messageInput: {
-    borderWidth: 1, borderColor: Colors.slate200, borderRadius: 10,
-    padding: 12, fontSize: 13, color: Colors.slate800,
+    borderWidth: 1, borderColor: Colors.borderLight, borderRadius: 10,
+    padding: 12, fontSize: 13, color: Colors.textPrimary,
     textAlignVertical: 'top', minHeight: 100, marginBottom: 16,
   },
   modalActions: { flexDirection: 'row', gap: 10 },
   cancelBtn: {
     flex: 1, paddingVertical: 12, borderRadius: 10,
-    borderWidth: 1, borderColor: Colors.slate200, alignItems: 'center',
+    borderWidth: 1, borderColor: Colors.borderLight, alignItems: 'center',
   },
-  cancelBtnText: { fontSize: 14, fontWeight: '700', color: Colors.slate600 },
+  cancelBtnText: { fontSize: 14, fontWeight: '700', color: Colors.textSecondary },
   sendBtn: { flex: 1, paddingVertical: 12, borderRadius: 10, backgroundColor: Colors.primary, alignItems: 'center' },
-  sendBtnText: { fontSize: 14, fontWeight: '700', color: Colors.white },
+  sendBtnText: { fontSize: 14, fontWeight: '700', color: Colors.background },
 });

@@ -17,7 +17,7 @@ const formatPhp = (amount) =>
 const DocRow = ({ label, done }) => (
   <View style={[styles.docPill, done ? styles.docPillActive : styles.docPillInactive]}>
     <Text
-      style={[styles.docLabel, { color: done ? Colors.green : Colors.slate400 }]}
+      style={[styles.docLabel, { color: done ? Colors.success : Colors.textMuted }]}
       numberOfLines={1}
     >
       {label}
@@ -31,7 +31,7 @@ const ScoreBar = ({ label, score }) => (
     <View style={styles.scoreBarTrack}>
       <View style={[styles.scoreBarFill, {
         width: `${score}%`,
-        backgroundColor: score > 80 ? Colors.green : score >= 60 ? Colors.amber : Colors.slate300,
+        backgroundColor: score > 80 ? Colors.success : score >= 60 ? Colors.warning : Colors.backgroundSecondary,
       }]} />
     </View>
     <Text style={styles.scoreBarNum}>{score || '—'}</Text>
@@ -81,21 +81,21 @@ export default function DetailScreen() {
         <View style={styles.card}>
           <Text style={styles.businessName}>{app.businessName}</Text>
           <View style={styles.metaRow}>
-            <Ionicons name="person-outline" size={13} color={Colors.slate500} />
+            <Ionicons name="person-outline" size={13} color={Colors.textSecondary} />
             <Text style={styles.metaText}> {app.ownerName}</Text>
             <Text style={styles.metaDot}> · </Text>
             <Text style={styles.metaText}>{app.yearsInOperation} yrs</Text>
           </View>
           <View style={styles.metaRow}>
-            <Ionicons name="location-outline" size={13} color={Colors.slate500} />
+            <Ionicons name="location-outline" size={13} color={Colors.textSecondary} />
             <Text style={styles.metaText}> {app.address}</Text>
           </View>
           <View style={styles.metaRow}>
-            <Ionicons name="call-outline" size={13} color={Colors.slate500} />
+            <Ionicons name="call-outline" size={13} color={Colors.textSecondary} />
             <Text style={styles.metaText}> {app.contact}</Text>
           </View>
           <View style={styles.metaRow}>
-            <Ionicons name="calendar-outline" size={13} color={Colors.slate500} />
+            <Ionicons name="calendar-outline" size={13} color={Colors.textSecondary} />
             <Text style={styles.metaText}> Submitted: {app.submitted}</Text>
           </View>
           <View style={styles.loanRow}>
@@ -118,13 +118,13 @@ export default function DetailScreen() {
 
         {/* Action Buttons */}
         <View style={styles.actionRow}>
-          <TouchableOpacity style={[styles.actionBtn, { backgroundColor: Colors.green }]} onPress={() => handleAction('Approve')}>
+          <TouchableOpacity style={[styles.actionBtn, { backgroundColor: Colors.success }]} onPress={() => handleAction('Approve')}>
             <Text style={styles.actionBtnText}>Approve</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.actionBtn, styles.outlineBtn]} onPress={() => handleAction('Request Documents')}>
-            <Text style={[styles.actionBtnText, { color: Colors.slate700 }]}>Request Docs</Text>
+            <Text style={[styles.actionBtnText, { color: Colors.textSecondary }]}>Request Docs</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.actionBtn, { backgroundColor: Colors.red }]} onPress={() => handleAction('Decline')}>
+          <TouchableOpacity style={[styles.actionBtn, { backgroundColor: Colors.danger }]} onPress={() => handleAction('Decline')}>
             <Text style={styles.actionBtnText}>Decline</Text>
           </TouchableOpacity>
         </View>
@@ -132,7 +132,7 @@ export default function DetailScreen() {
         {/* AI Summary */}
         <View style={styles.card}>
           <View style={styles.cardHeader}>
-            <Ionicons name="sparkles" size={16} color={Colors.cyan} />
+            <Ionicons name="sparkles" size={16} color={Colors.accent} />
             <Text style={styles.cardTitle}>  AI Summary</Text>
           </View>
           <Text style={styles.summaryText}>{app.aiSummary}</Text>
@@ -151,14 +151,14 @@ export default function DetailScreen() {
 
         {/* Risk Flags */}
         {app.flags.length > 0 && (
-          <View style={[styles.card, { borderLeftWidth: 4, borderLeftColor: Colors.red }]}>
+          <View style={[styles.card, { borderLeftWidth: 4, borderLeftColor: Colors.danger }]}>
             <View style={styles.cardHeader}>
-              <Ionicons name="alert-triangle" size={16} color={Colors.red} />
-              <Text style={[styles.cardTitle, { color: Colors.red }]}>  Risk Flags</Text>
+              <Ionicons name="alert-triangle" size={16} color={Colors.danger} />
+              <Text style={[styles.cardTitle, { color: Colors.danger }]}>  Risk Flags</Text>
             </View>
             {app.flags.map((flag, i) => (
               <View key={i} style={styles.flagItem}>
-                <Ionicons name="warning-outline" size={14} color={Colors.red} />
+                <Ionicons name="warning-outline" size={14} color={Colors.danger} />
                 <Text style={styles.flagText}>{flag}</Text>
               </View>
             ))}
@@ -201,7 +201,7 @@ export default function DetailScreen() {
           {app.timeline.map((event, i) => (
             <View key={i} style={styles.timelineRow}>
               <View style={styles.timelineDotCol}>
-                <View style={[styles.timelineDot, { backgroundColor: i === 0 ? Colors.primary : Colors.slate300 }]} />
+                <View style={[styles.timelineDot, { backgroundColor: i === 0 ? Colors.primary : Colors.backgroundSecondary }]} />
                 {i < app.timeline.length - 1 && <View style={styles.timelineLine} />}
               </View>
               <View style={styles.timelineContent}>
@@ -222,7 +222,7 @@ export default function DetailScreen() {
             style={styles.notesInput}
             multiline
             placeholder="Add your notes here..."
-            placeholderTextColor={Colors.slate400}
+            placeholderTextColor={Colors.textMuted}
             value={notes}
             onChangeText={setNotes}
           />
@@ -242,7 +242,7 @@ export default function DetailScreen() {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: Colors.primary },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  notFound: { color: Colors.slate600, fontSize: 16 },
+  notFound: { color: Colors.textSecondary, fontSize: 16 },
 
   header: {
     backgroundColor: Colors.primary,
@@ -250,77 +250,77 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16, paddingVertical: 14,
   },
   backBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, width: 70 },
-  backText: { color: Colors.white, fontSize: 15, fontWeight: '600' },
-  headerTitle: { color: Colors.white, fontSize: 16, fontWeight: '700', flex: 1, textAlign: 'center' },
+  backText: { color: Colors.background, fontSize: 15, fontWeight: '600' },
+  headerTitle: { color: Colors.background, fontSize: 16, fontWeight: '700', flex: 1, textAlign: 'center' },
 
-  scrollBg: { backgroundColor: Colors.slate50 },
+  scrollBg: { backgroundColor: Colors.backgroundSecondary },
   content: { padding: 16, paddingBottom: 40 },
 
   card: {
-    backgroundColor: Colors.white, borderRadius: 12, padding: 16, marginBottom: 12,
+    backgroundColor: Colors.background, borderRadius: 12, padding: 16, marginBottom: 12,
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
   },
   cardHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
-  cardTitle: { fontSize: 15, fontWeight: '700', color: Colors.slate900 },
+  cardTitle: { fontSize: 15, fontWeight: '700', color: Colors.textPrimary },
 
-  businessName: { fontSize: 19, fontWeight: '800', color: Colors.slate900, marginBottom: 8 },
+  businessName: { fontSize: 19, fontWeight: '800', color: Colors.textPrimary, marginBottom: 8 },
   metaRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
-  metaText: { fontSize: 13, color: Colors.slate600 },
-  metaDot: { fontSize: 13, color: Colors.slate400 },
+  metaText: { fontSize: 13, color: Colors.textSecondary },
+  metaDot: { fontSize: 13, color: Colors.textMuted },
   loanRow: { flexDirection: 'row', alignItems: 'center', marginTop: 8 },
-  loanLabel: { fontSize: 13, color: Colors.slate600, fontWeight: '600' },
+  loanLabel: { fontSize: 13, color: Colors.textSecondary, fontWeight: '600' },
   loanAmount: { fontSize: 16, color: Colors.primary, fontWeight: '800' },
 
   scoreRow: { flexDirection: 'row', alignItems: 'center' },
   statusBlock: { flex: 1, paddingLeft: 16 },
-  sectionLabel: { fontSize: 11, color: Colors.slate500, fontWeight: '600', textTransform: 'uppercase', marginBottom: 6 },
-  appId: { fontSize: 11, color: Colors.slate400, marginTop: 8 },
+  sectionLabel: { fontSize: 11, color: Colors.textSecondary, fontWeight: '600', textTransform: 'uppercase', marginBottom: 6 },
+  appId: { fontSize: 11, color: Colors.textMuted, marginTop: 8 },
 
   actionRow: { flexDirection: 'row', gap: 8, marginBottom: 12 },
   actionBtn: { flex: 1, paddingVertical: 12, borderRadius: 10, alignItems: 'center' },
-  outlineBtn: { borderWidth: 1, borderColor: Colors.slate200, backgroundColor: Colors.white },
-  actionBtnText: { fontSize: 13, fontWeight: '700', color: Colors.white },
+  outlineBtn: { borderWidth: 1, borderColor: Colors.borderLight, backgroundColor: Colors.background },
+  actionBtnText: { fontSize: 13, fontWeight: '700', color: Colors.background },
 
-  summaryText: { fontSize: 14, color: Colors.slate700, lineHeight: 22 },
+  summaryText: { fontSize: 14, color: Colors.textPrimary, lineHeight: 22 },
 
   scoreBarRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-  scoreBarLabel: { width: 110, fontSize: 12, color: Colors.slate600 },
-  scoreBarTrack: { flex: 1, height: 8, backgroundColor: Colors.slate100, borderRadius: 4, overflow: 'hidden', marginRight: 8 },
+  scoreBarLabel: { width: 110, fontSize: 12, color: Colors.textSecondary },
+  scoreBarTrack: { flex: 1, height: 8, backgroundColor: Colors.backgroundSecondary, borderRadius: 4, overflow: 'hidden', marginRight: 8 },
   scoreBarFill: { height: 8, borderRadius: 4 },
-  scoreBarNum: { width: 28, fontSize: 12, fontWeight: '700', color: Colors.slate700, textAlign: 'right' },
+  scoreBarNum: { width: 28, fontSize: 12, fontWeight: '700', color: Colors.textPrimary, textAlign: 'right' },
 
   flagItem: { flexDirection: 'row', alignItems: 'flex-start', gap: 8, marginBottom: 8 },
-  flagText: { fontSize: 13, color: Colors.red, flex: 1, lineHeight: 20 },
+  flagText: { fontSize: 13, color: Colors.danger, flex: 1, lineHeight: 20 },
 
   docContainer: {
-    borderWidth: 1, borderColor: Colors.slate200, borderRadius: 10,
+    borderWidth: 1, borderColor: Colors.borderLight, borderRadius: 10,
     padding: 8, gap: 8,
   },
   docPill: {
     borderRadius: 8, paddingVertical: 12, paddingHorizontal: 14, borderWidth: 1,
   },
-  docPillActive: { borderColor: Colors.green, backgroundColor: Colors.white },
-  docPillInactive: { borderColor: Colors.slate200, backgroundColor: Colors.white },
+  docPillActive: { borderColor: Colors.success, backgroundColor: Colors.background },
+  docPillInactive: { borderColor: Colors.borderLight, backgroundColor: Colors.background },
   docLabel: { fontSize: 14, fontWeight: '600' },
 
   finRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 10 },
-  finRowBorder: { borderBottomWidth: 1, borderBottomColor: Colors.slate100 },
-  finLabel: { fontSize: 13, color: Colors.slate600 },
-  finValue: { fontSize: 13, fontWeight: '700', color: Colors.slate900 },
+  finRowBorder: { borderBottomWidth: 1, borderBottomColor: Colors.borderLight },
+  finLabel: { fontSize: 13, color: Colors.textSecondary },
+  finValue: { fontSize: 13, fontWeight: '700', color: Colors.textPrimary },
 
   timelineRow: { flexDirection: 'row', marginBottom: 4 },
   timelineDotCol: { alignItems: 'center', marginRight: 12, width: 12 },
   timelineDot: { width: 12, height: 12, borderRadius: 6 },
-  timelineLine: { width: 2, flex: 1, backgroundColor: Colors.slate200, marginTop: 2 },
+  timelineLine: { width: 2, flex: 1, backgroundColor: Colors.borderLight, marginTop: 2 },
   timelineContent: { flex: 1, paddingBottom: 12 },
   timelineDate: { fontSize: 11, fontWeight: '700', color: Colors.primary },
-  timelineEvent: { fontSize: 13, color: Colors.slate700, marginTop: 2 },
+  timelineEvent: { fontSize: 13, color: Colors.textPrimary, marginTop: 2 },
 
   notesInput: {
-    borderWidth: 1, borderColor: Colors.slate200, borderRadius: 10,
-    padding: 12, fontSize: 14, color: Colors.slate800,
+    borderWidth: 1, borderColor: Colors.borderLight, borderRadius: 10,
+    padding: 12, fontSize: 14, color: Colors.textPrimary,
     textAlignVertical: 'top', minHeight: 100, marginBottom: 12,
   },
   saveBtn: { backgroundColor: Colors.primary, borderRadius: 10, paddingVertical: 12, alignItems: 'center' },
-  saveBtnText: { fontSize: 14, fontWeight: '700', color: Colors.white },
+  saveBtnText: { fontSize: 14, fontWeight: '700', color: Colors.background },
 });

@@ -1,0 +1,394 @@
+<!-- FILE: mobile-loaners/notifications.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUFUS - Notifications</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .notification-header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .mark-all-read-btn {
+      background: transparent;
+      border: none;
+      color: var(--rufus-secondary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: opacity 0.2s ease;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .mark-all-read-btn:hover {
+      opacity: 0.7;
+    }
+
+    .notifications-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 0 1rem 1.5rem 1rem;
+    }
+
+    .notification-item {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 12px;
+      border: 1px solid var(--rufus-border);
+      padding: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 153, 204, 0.08);
+      transition: all 0.2s ease;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .notification-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 153, 204, 0.12);
+    }
+
+    .notification-item.unread {
+      border-left: 4px solid var(--rufus-secondary);
+      background: linear-gradient(135deg, rgba(0, 153, 204, 0.05), transparent);
+    }
+
+    .notification-icon {
+      font-size: 1.5rem;
+      min-width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notification-content {
+      flex: 1;
+    }
+
+    .notification-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--rufus-text-body);
+      margin-bottom: 0.35rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .notification-message {
+      font-size: 0.9rem;
+      color: var(--rufus-text-secondary);
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+
+    .notification-time {
+      font-size: 0.8rem;
+      color: var(--rufus-gray);
+      font-weight: 500;
+    }
+
+    /* Notification Type Styling */
+    .notification-overdue {
+      border-left: 4px solid var(--rufus-danger);
+    }
+
+    .notification-overdue .notification-icon {
+      color: var(--rufus-danger);
+    }
+
+    .notification-reminder {
+      border-left: 4px solid var(--rufus-warning);
+    }
+
+    .notification-reminder .notification-icon {
+      color: var(--rufus-warning);
+    }
+
+    .notification-approved {
+      border-left: 4px solid var(--rufus-success);
+    }
+
+    .notification-approved .notification-icon {
+      color: var(--rufus-success);
+    }
+
+    .notification-score {
+      border-left: 4px solid var(--rufus-secondary);
+    }
+
+    .notification-score .notification-icon {
+      color: var(--rufus-secondary);
+    }
+
+    .notification-system {
+      border-left: 4px solid var(--rufus-gray);
+    }
+
+    .notification-system .notification-icon {
+      color: var(--rufus-gray);
+    }
+
+    .notification-badge {
+      display: inline-block;
+      padding: 0.25rem 0.625rem;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-right: 0.5rem;
+    }
+
+    .badge-overdue {
+      background: rgba(231, 76, 60, 0.15);
+      color: var(--rufus-danger);
+    }
+
+    .badge-reminder {
+      background: rgba(243, 156, 18, 0.15);
+      color: var(--rufus-warning);
+    }
+
+    .badge-approved {
+      background: rgba(0, 184, 148, 0.15);
+      color: var(--rufus-success);
+    }
+
+    .badge-score {
+      background: rgba(0, 153, 204, 0.15);
+      color: var(--rufus-secondary);
+    }
+
+    .badge-system {
+      background: rgba(176, 190, 197, 0.15);
+      color: var(--rufus-dark-gray);
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .empty-state-text {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--rufus-text-secondary);
+      font-family: 'Outfit', sans-serif;
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-state-subtext {
+      font-size: 0.9rem;
+      color: var(--rufus-gray);
+    }
+
+    .notification-action-btn {
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: var(--rufus-secondary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .notification-action-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <!-- Header -->
+    <div class="page-header">
+      <a href="dashboard.html" class="page-header-back">← Notifications</a>
+    </div>
+
+    <!-- Mark All as Read -->
+    <div class="notification-header-actions">
+      <h2 style="margin: 0; font-size: 1.125rem;">Your Alerts</h2>
+      <button class="mark-all-read-btn" onclick="markAllAsRead()">Mark all read</button>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="notifications-list" id="notificationsList">
+      <!-- Notification 1: Overdue Payment -->
+      <div class="notification-item notification-overdue unread">
+        <div class="notification-icon">🔴</div>
+        <div class="notification-content">
+          <div>
+            <span class="notification-badge badge-overdue">Overdue</span>
+          </div>
+          <div class="notification-title">Payment Past Due</div>
+          <div class="notification-message">
+            Your payment of ₱1,250.00 was due on April 25, 2026. Please pay immediately to avoid penalties.
+          </div>
+          <div class="notification-time">1 hour ago</div>
+          <button class="notification-action-btn" onclick="alert('Payment gateway would open...')">Pay Now</button>
+        </div>
+      </div>
+
+      <!-- Notification 2: Payment Reminder -->
+      <div class="notification-item notification-reminder unread">
+        <div class="notification-icon">🟡</div>
+        <div class="notification-content">
+          <div>
+            <span class="notification-badge badge-reminder">Reminder</span>
+          </div>
+          <div class="notification-title">Payment Due Soon</div>
+          <div class="notification-message">
+            Your next payment of ₱1,250.00 is due on May 2, 2026. Set a reminder to avoid missing it.
+          </div>
+          <div class="notification-time">3 hours ago</div>
+        </div>
+      </div>
+
+      <!-- Notification 3: Document Approved -->
+      <div class="notification-item notification-approved unread">
+        <div class="notification-icon">🟢</div>
+        <div class="notification-content">
+          <div>
+            <span class="notification-badge badge-approved">Approved</span>
+          </div>
+          <div class="notification-title">Document Approved</div>
+          <div class="notification-message">
+            Your Business Plan document has been approved by Loan Officer Maria Santos. Keep it safe for records.
+          </div>
+          <div class="notification-time">Yesterday at 3:20 PM</div>
+        </div>
+      </div>
+
+      <!-- Notification 4: RUFUS Score Update -->
+      <div class="notification-item notification-score">
+        <div class="notification-icon">🔵</div>
+        <div class="notification-content">
+          <div>
+            <span class="notification-badge badge-score">Score Update</span>
+          </div>
+          <div class="notification-title">Your RUFUS Score Updated</div>
+          <div class="notification-message">
+            Congratulations! Your RUFUS Score has improved to 74/100. Your excellent repayment history is noted.
+          </div>
+          <div class="notification-time">April 25, 2026</div>
+        </div>
+      </div>
+
+      <!-- Notification 5: Application Status -->
+      <div class="notification-item notification-system">
+        <div class="notification-icon">⚪</div>
+        <div class="notification-content">
+          <div>
+            <span class="notification-badge badge-system">System</span>
+          </div>
+          <div class="notification-title">Application Status Update</div>
+          <div class="notification-message">
+            Your loan application documents are under review by RAFI Talisay Branch. You will be notified of approval within 5 business days.
+          </div>
+          <div class="notification-time">April 20, 2026</div>
+        </div>
+      </div>
+
+      <!-- Notification 6: Payment Successful -->
+      <div class="notification-item notification-approved">
+        <div class="notification-icon">🟢</div>
+        <div class="notification-content">
+          <div>
+            <span class="notification-badge badge-approved">Paid</span>
+          </div>
+          <div class="notification-title">Payment Received</div>
+          <div class="notification-message">
+            Your payment of ₱1,250.00 for April has been successfully received and processed.
+          </div>
+          <div class="notification-time">April 15, 2026</div>
+        </div>
+      </div>
+
+      <!-- Notification 7: Loan Approved -->
+      <div class="notification-item notification-approved">
+        <div class="notification-icon">🟢</div>
+        <div class="notification-content">
+          <div>
+            <span class="notification-badge badge-approved">Approved</span>
+          </div>
+          <div class="notification-title">Loan Approved & Disbursed</div>
+          <div class="notification-message">
+            Your Business Loan of ₱25,000.00 has been approved and transferred to your account. Loan term begins today.
+          </div>
+          <div class="notification-time">January 15, 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State (hidden by default) -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-state-icon">📭</div>
+      <div class="empty-state-text">No Notifications</div>
+      <div class="empty-state-subtext">Check back later for updates on your loan status</div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item" data-page="dashboard.html">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a href="payments.html" class="nav-item" data-page="payments.html">
+      <div class="nav-icon">📅</div>
+      <div class="nav-label">Payments</div>
+    </a>
+    <a href="documents.html" class="nav-item" data-page="documents.html">
+      <div class="nav-icon">📄</div>
+      <div class="nav-label">Docs</div>
+    </a>
+    <a href="qr-profile.html" class="nav-item" data-page="qr-profile.html">
+      <div class="nav-icon">📱</div>
+      <div class="nav-label">QR</div>
+    </a>
+    <a href="notifications.html" class="nav-item active" data-page="notifications.html">
+      <div class="nav-icon">🔔</div>
+      <div class="nav-label">Alerts</div>
+    </a>
+  </nav>
+
+  <script>
+    function markAllAsRead() {
+      const unreadItems = document.querySelectorAll('.notification-item.unread');
+      unreadItems.forEach(item => {
+        item.classList.remove('unread');
+      });
+      
+      if (unreadItems.length > 0) {
+        alert(`Marked ${unreadItems.length} notification(s) as read`);
+      }
+    }
+
+    // Initialize notification count in nav badge
+    const unreadCount = document.querySelectorAll('.notification-item.unread').length;
+    if (unreadCount > 0) {
+      // Badge is already shown in dashboard from the hardcoded value
+      console.log(`Unread notifications: ${unreadCount}`);
+    }
+  </script>
+</body>
+</html>

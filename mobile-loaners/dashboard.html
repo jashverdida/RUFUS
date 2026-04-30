@@ -1,0 +1,525 @@
+<!-- FILE: mobile-loaners/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUFUS - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-header-dashboard {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1rem;
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rufus-border);
+      margin-bottom: 0;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .header-logo-small {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #0099CC 0%, #0B3D91 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .header-text h3 {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--rufus-text-body);
+    }
+
+    .header-text p {
+      font-size: 0.8rem;
+      color: var(--rufus-text-secondary);
+      margin: 0;
+    }
+
+    .header-right {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .notification-bell {
+      font-size: 1.5rem;
+      position: relative;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--rufus-danger);
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border: 2px solid white;
+    }
+
+    .active-loan-card {
+      background: linear-gradient(135deg, #0099CC 0%, #0B3D91 100%);
+      color: white;
+      border: none;
+      margin: 1rem 1rem 0 1rem;
+      padding: 1.5rem;
+    }
+
+    .active-loan-card .card-title {
+      color: white;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+    }
+
+    .loan-amount {
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .loan-details {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.9rem;
+    }
+
+    .loan-detail-item {
+      text-align: center;
+      flex: 1;
+    }
+
+    .loan-detail-label {
+      font-size: 0.8rem;
+      opacity: 0.9;
+      margin-bottom: 0.25rem;
+    }
+
+    .loan-detail-value {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .view-details-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: white;
+      color: var(--rufus-primary);
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .view-details-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .rufus-score-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      margin: 1.5rem 0 1rem 0;
+    }
+
+    .rufus-score-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+
+    .rufus-score-label {
+      font-size: 0.9rem;
+      color: var(--rufus-text-secondary);
+      font-weight: 500;
+    }
+
+    .rufus-score-subtext {
+      font-size: 0.8rem;
+      color: var(--rufus-gray);
+    }
+
+    .score-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: conic-gradient(
+        var(--rufus-secondary) 0deg,
+        var(--rufus-secondary) 266deg,
+        var(--rufus-light-gray) 266deg
+      );
+      box-shadow: 0 4px 15px rgba(0, 153, 204, 0.2);
+    }
+
+    .score-circle-inner {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--rufus-secondary);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1;
+    }
+
+    .score-max {
+      font-size: 0.75rem;
+      color: var(--rufus-text-secondary);
+      font-weight: 600;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .action-card {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid var(--rufus-border);
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 4px 20px rgba(0, 153, 204, 0.08);
+      text-decoration: none;
+    }
+
+    .action-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 153, 204, 0.15);
+    }
+
+    .action-icon {
+      font-size: 2rem;
+    }
+
+    .action-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--rufus-text-primary);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .payment-reminder {
+      background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.05));
+      border-left: 4px solid var(--rufus-warning);
+      padding: 1rem;
+      margin: 0 1rem 1.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(243, 156, 18, 0.2);
+    }
+
+    .payment-reminder-title {
+      font-weight: 600;
+      color: var(--rufus-warning);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .payment-reminder-amount {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--rufus-text-body);
+      margin: 0.5rem 0;
+    }
+
+    .payment-reminder-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--rufus-warning);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      transition: all 0.2s ease;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .payment-reminder-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .recent-activity-section {
+      padding: 0 1rem 1.5rem 1rem;
+    }
+
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--rufus-primary);
+      margin-bottom: 1rem;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .activity-item {
+      background: var(--rufus-card);
+      backdrop-filter: blur(12px);
+      border-radius: 12px;
+      border: 1px solid var(--rufus-border);
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 153, 204, 0.08);
+    }
+
+    .activity-left {
+      flex: 1;
+    }
+
+    .activity-date {
+      font-size: 0.85rem;
+      color: var(--rufus-text-secondary);
+      margin-bottom: 0.25rem;
+    }
+
+    .activity-description {
+      font-size: 0.95rem;
+      color: var(--rufus-text-body);
+      font-weight: 500;
+    }
+
+    .activity-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .activity-amount {
+      font-weight: 700;
+      color: var(--rufus-primary);
+      font-size: 0.95rem;
+    }
+
+    .activity-badge {
+      padding: 0.3rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <!-- Header -->
+    <div class="page-header-dashboard">
+      <div class="header-left">
+        <div class="header-logo-small">R</div>
+        <div class="header-text">
+          <h3>Kumusta, Maria!</h3>
+          <p>Dela Cruz Sari-Sari Store</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="notification-bell">🔔
+          <div class="notification-badge" id="notifBadge">3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <!-- Active Loan Card -->
+      <div class="card active-loan-card">
+        <div class="card-title">Active Loan</div>
+        <div class="loan-amount">₱25,000.00</div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 26%;"></div>
+        </div>
+        <div style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.85;">26% Paid</div>
+        
+        <div class="loan-details">
+          <div class="loan-detail-item">
+            <div class="loan-detail-label">Remaining</div>
+            <div class="loan-detail-value">₱18,500</div>
+          </div>
+          <div class="loan-detail-item">
+            <div class="loan-detail-label">Due Date</div>
+            <div class="loan-detail-value">May 5</div>
+          </div>
+          <div class="loan-detail-item">
+            <div class="loan-detail-label">Term</div>
+            <div class="loan-detail-value">12 mo.</div>
+          </div>
+        </div>
+        
+        <button class="view-details-btn" onclick="location.href='loan-status.html'">View Details</button>
+      </div>
+
+      <!-- RUFUS Score -->
+      <div class="rufus-score-section">
+        <div class="rufus-score-content">
+          <div class="rufus-score-label">Your RUFUS Score</div>
+          <div class="rufus-score-subtext">Excellent standing</div>
+        </div>
+        <div class="score-circle">
+          <div class="score-circle-inner">
+            <div class="score-value">74</div>
+            <div class="score-max">/100</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <a href="documents.html" class="action-card">
+          <div class="action-icon">📄</div>
+          <div class="action-label">Submit Documents</div>
+        </a>
+        <a href="payments.html" class="action-card">
+          <div class="action-icon">📅</div>
+          <div class="action-label">View Payments</div>
+        </a>
+        <a href="notifications.html" class="action-card">
+          <div class="action-icon">🔔</div>
+          <div class="action-label">Notifications</div>
+        </a>
+        <a href="qr-profile.html" class="action-card">
+          <div class="action-icon">📱</div>
+          <div class="action-label">My QR Code</div>
+        </a>
+      </div>
+
+      <!-- Payment Reminder -->
+      <div class="payment-reminder">
+        <div class="payment-reminder-title">⚠️ Payment Due Soon</div>
+        <div class="payment-reminder-amount">₱1,250.00</div>
+        <div style="font-size: 0.9rem; color: var(--rufus-text-body);">Due in 3 days • May 2, 2026</div>
+        <button class="payment-reminder-btn" onclick="alert('Payment gateway coming soon');">Pay Now</button>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="recent-activity-section">
+        <div class="section-title">Recent Activity</div>
+        
+        <div class="activity-item">
+          <div class="activity-left">
+            <div class="activity-date">April 28, 2026</div>
+            <div class="activity-description">Monthly Payment</div>
+          </div>
+          <div class="activity-right">
+            <div class="activity-amount">₱1,250.00</div>
+            <span class="activity-badge badge-success">✓ Paid</span>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-left">
+            <div class="activity-date">April 20, 2026</div>
+            <div class="activity-description">Document Approved</div>
+          </div>
+          <div class="activity-right">
+            <span class="activity-badge badge-success">✓ Approved</span>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-left">
+            <div class="activity-date">April 15, 2026</div>
+            <div class="activity-description">Monthly Payment</div>
+          </div>
+          <div class="activity-right">
+            <div class="activity-amount">₱1,250.00</div>
+            <span class="activity-badge badge-success">✓ Paid</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-item active" data-page="dashboard.html">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a href="payments.html" class="nav-item" data-page="payments.html">
+      <div class="nav-icon">📅</div>
+      <div class="nav-label">Payments</div>
+    </a>
+    <a href="documents.html" class="nav-item" data-page="documents.html">
+      <div class="nav-icon">📄</div>
+      <div class="nav-label">Docs</div>
+    </a>
+    <a href="qr-profile.html" class="nav-item" data-page="qr-profile.html">
+      <div class="nav-icon">📱</div>
+      <div class="nav-label">QR</div>
+    </a>
+    <a href="notifications.html" class="nav-item" data-page="notifications.html">
+      <div class="nav-icon">🔔</div>
+      <div class="nav-label">Alerts</div>
+    </a>
+  </nav>
+
+  <script>
+    // Active nav detection
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const isActive = item.getAttribute('data-page') === 'dashboard.html';
+      if (isActive) {
+        item.classList.add('active');
+      }
+    });
+
+    // Update notification badge on click
+    document.querySelector('.notification-bell').addEventListener('click', () => {
+      window.location.href = 'notifications.html';
+    });
+  </script>
+</body>
+</html>

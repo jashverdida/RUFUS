@@ -73,8 +73,8 @@ export default function SettingsScreen() {
               <Switch
                 value={toggles[item.key]}
                 onValueChange={() => toggle(item.key)}
-                trackColor={{ false: Colors.slate200, true: Colors.cyanLight }}
-                thumbColor={toggles[item.key] ? Colors.cyan : Colors.slate400}
+                trackColor={{ false: Colors.borderLight, true: Colors.accentLight }}
+                thumbColor={toggles[item.key] ? Colors.accent : Colors.textMuted}
               />
             </View>
           ))}
@@ -112,9 +112,9 @@ export default function SettingsScreen() {
               <Text style={styles.thresholdNum}>65</Text>
               <Text style={styles.thresholdTag}>LOW</Text>
             </View>
-            <View style={[styles.thresholdBox, { backgroundColor: Colors.amberLight }]}>
-              <Text style={[styles.thresholdNum, { color: Colors.amber }]}>79</Text>
-              <Text style={[styles.thresholdTag, { color: Colors.amber }]}>HIGH</Text>
+            <View style={[styles.thresholdBox, { backgroundColor: Colors.warningBg }]}>
+              <Text style={[styles.thresholdNum, { color: Colors.warning }]}>79</Text>
+              <Text style={[styles.thresholdTag, { color: Colors.warning }]}>HIGH</Text>
             </View>
           </View>
 
@@ -164,9 +164,9 @@ export default function SettingsScreen() {
             <Text style={[styles.dataBtnText, { color: Colors.primary }]}>Export All Data</Text>
           </TouchableOpacity>
           <View style={styles.divider} />
-          <TouchableOpacity style={[styles.dataBtn, { borderWidth: 1, borderColor: Colors.red, borderRadius: 8, padding: 12 }]} onPress={handleClearCache}>
-            <Ionicons name="trash-outline" size={18} color={Colors.red} />
-            <Text style={[styles.dataBtnText, { color: Colors.red }]}>Clear Application Cache</Text>
+          <TouchableOpacity style={[styles.dataBtn, { borderWidth: 1, borderColor: Colors.danger, borderRadius: 8, padding: 12 }]} onPress={handleClearCache}>
+            <Ionicons name="trash-outline" size={18} color={Colors.danger} />
+            <Text style={[styles.dataBtnText, { color: Colors.danger }]}>Clear Application Cache</Text>
           </TouchableOpacity>
         </View>
 
@@ -176,12 +176,12 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: Colors.slate50 },
+  safe: { flex: 1, backgroundColor: Colors.backgroundSecondary },
   scroll: { flex: 1 },
   content: { padding: 16, paddingBottom: 40 },
 
   profileCard: {
-    backgroundColor: Colors.white, borderRadius: 16, padding: 16,
+    backgroundColor: Colors.background, borderRadius: 16, padding: 16,
     flexDirection: 'row', alignItems: 'center', marginBottom: 20,
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
   },
@@ -189,52 +189,52 @@ const styles = StyleSheet.create({
     width: 56, height: 56, borderRadius: 28,
     backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center', marginRight: 14,
   },
-  avatarText: { fontSize: 20, fontWeight: '800', color: Colors.white },
+  avatarText: { fontSize: 20, fontWeight: '800', color: Colors.background },
   profileInfo: { flex: 1 },
-  profileName: { fontSize: 16, fontWeight: '800', color: Colors.slate900 },
+  profileName: { fontSize: 16, fontWeight: '800', color: Colors.textPrimary },
   profileTitle: { fontSize: 13, color: Colors.primary, fontWeight: '600', marginTop: 2 },
-  profileBranch: { fontSize: 11, color: Colors.slate500, marginTop: 3 },
+  profileBranch: { fontSize: 11, color: Colors.textSecondary, marginTop: 3 },
   editBtn: { padding: 8 },
 
-  sectionTitle: { fontSize: 15, fontWeight: '800', color: Colors.slate800, marginBottom: 10 },
+  sectionTitle: { fontSize: 15, fontWeight: '800', color: Colors.textPrimary, marginBottom: 10 },
 
   card: {
-    backgroundColor: Colors.white, borderRadius: 12, padding: 16, marginBottom: 20,
+    backgroundColor: Colors.background, borderRadius: 12, padding: 16, marginBottom: 20,
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 2,
   },
   toggleRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12 },
-  toggleBorder: { borderBottomWidth: 1, borderBottomColor: Colors.slate100 },
+  toggleBorder: { borderBottomWidth: 1, borderBottomColor: Colors.borderLight },
   toggleInfo: { flex: 1, marginRight: 12 },
-  toggleLabel: { fontSize: 14, fontWeight: '600', color: Colors.slate800 },
-  toggleDesc: { fontSize: 11, color: Colors.slate500, marginTop: 2 },
+  toggleLabel: { fontSize: 14, fontWeight: '600', color: Colors.textPrimary },
+  toggleDesc: { fontSize: 11, color: Colors.textSecondary, marginTop: 2 },
 
-  configLabel: { fontSize: 14, fontWeight: '700', color: Colors.slate800, marginBottom: 4 },
-  configDesc: { fontSize: 12, color: Colors.slate500, marginBottom: 10 },
+  configLabel: { fontSize: 14, fontWeight: '700', color: Colors.textPrimary, marginBottom: 4 },
+  configDesc: { fontSize: 12, color: Colors.textSecondary, marginBottom: 10 },
   sliderRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   sliderBtn: {
     width: 32, height: 32, borderRadius: 16, borderWidth: 1,
-    borderColor: Colors.slate200, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.white,
+    borderColor: Colors.borderLight, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.background,
   },
   sliderTrack: {
-    flex: 1, height: 8, backgroundColor: Colors.slate100,
+    flex: 1, height: 8, backgroundColor: Colors.backgroundSecondary,
     borderRadius: 4, overflow: 'hidden',
   },
-  sliderFill: { height: 8, backgroundColor: Colors.cyan, borderRadius: 4 },
+  sliderFill: { height: 8, backgroundColor: Colors.accent, borderRadius: 4 },
   sliderValue: { fontSize: 15, fontWeight: '800', color: Colors.primary, minWidth: 36, textAlign: 'right' },
 
   thresholdRow: { flexDirection: 'row', gap: 12, marginTop: 8 },
   thresholdBox: {
-    flex: 1, backgroundColor: Colors.primaryLight, borderRadius: 10,
+    flex: 1, backgroundColor: Colors.infoBg, borderRadius: 10,
     padding: 14, alignItems: 'center',
   },
   thresholdNum: { fontSize: 28, fontWeight: '800', color: Colors.primary },
   thresholdTag: { fontSize: 11, fontWeight: '700', color: Colors.primary, marginTop: 4 },
 
-  divider: { height: 1, backgroundColor: Colors.slate100, marginVertical: 14 },
+  divider: { height: 1, backgroundColor: Colors.borderLight, marginVertical: 14 },
 
   sysRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10 },
-  sysLabel: { fontSize: 13, color: Colors.slate600 },
-  sysValue: { fontSize: 13, fontWeight: '600', color: Colors.slate800 },
+  sysLabel: { fontSize: 13, color: Colors.textSecondary },
+  sysValue: { fontSize: 13, fontWeight: '600', color: Colors.textPrimary },
 
   dataBtn: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 4 },
   dataBtnText: { fontSize: 14, fontWeight: '700' },

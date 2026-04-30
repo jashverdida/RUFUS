@@ -8,14 +8,14 @@ export default function ScoreCircle({ score }) {
 
   return (
     <View style={styles.wrapper}>
-      <View style={[styles.circle, { borderColor: score === 0 ? Colors.slate300 : stroke }]}>
-        <Text style={[styles.score, { color: score === 0 ? Colors.slate400 : text }]}>
+      <View style={[styles.circle, { borderColor: score === 0 ? Colors.backgroundSecondary : stroke }]}>
+        <Text style={[styles.score, { color: score === 0 ? Colors.textMuted : text }]}>
           {score === 0 ? '—' : score}
         </Text>
         {score > 0 && <Text style={[styles.outOf, { color: text }]}>/ 100</Text>}
       </View>
       <Text style={styles.label}>RUFUS Credit Score</Text>
-      <Text style={[styles.level, { color: score === 0 ? Colors.slate400 : text }]}>{label}</Text>
+      <Text style={[styles.level, { color: score === 0 ? Colors.textMuted : text }]}>{label}</Text>
     </View>
   );
 }
@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
   },
   score: { fontSize: 32, fontWeight: '800' },
   outOf: { fontSize: 10, fontWeight: '600' },
-  label: { marginTop: 10, fontSize: 13, fontWeight: '600', color: Colors.slate700 },
+  label: { marginTop: 10, fontSize: 13, fontWeight: '600', color: Colors.textSecondary },
   level: { fontSize: 12, fontWeight: '700', marginTop: 4 },
 });

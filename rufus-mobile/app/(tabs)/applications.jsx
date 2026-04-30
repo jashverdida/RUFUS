@@ -11,9 +11,9 @@ const formatPhp = (amount) =>
   new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: 0 }).format(amount);
 
 const DocBadge = ({ label, done }) => (
-  <View style={[styles.docBadge, { backgroundColor: done ? Colors.greenLight : Colors.slate100 }]}>
-    <Ionicons name={done ? 'checkmark-circle' : 'ellipse-outline'} size={12} color={done ? Colors.green : Colors.slate400} />
-    <Text style={[styles.docLabel, { color: done ? Colors.green : Colors.slate400 }]}>{label}</Text>
+  <View style={[styles.docBadge, { backgroundColor: done ? Colors.successBg : Colors.backgroundSecondary }]}>
+    <Ionicons name={done ? 'checkmark-circle' : 'ellipse-outline'} size={12} color={done ? Colors.success : Colors.textMuted} />
+    <Text style={[styles.docLabel, { color: done ? Colors.success : Colors.textMuted }]}>{label}</Text>
   </View>
 );
 
@@ -43,9 +43,9 @@ export default function ApplicationsScreen() {
         <View style={styles.statsRow}>
           {[
             { label: 'Total', value: total, color: Colors.primary },
-            { label: 'Pending', value: pending, color: Colors.amber },
-            { label: 'Approved', value: approved, color: Colors.green },
-            { label: 'Declined', value: declined, color: Colors.red },
+            { label: 'Pending', value: pending, color: Colors.warning },
+            { label: 'Approved', value: approved, color: Colors.success },
+            { label: 'Declined', value: declined, color: Colors.danger },
           ].map((s) => (
             <View key={s.label} style={[styles.statCard, { borderTopColor: s.color }]}>
               <Text style={[styles.statValue, { color: s.color }]}>{s.value}</Text>
@@ -56,11 +56,11 @@ export default function ApplicationsScreen() {
 
         {/* Search */}
         <View style={styles.searchBox}>
-          <Ionicons name="search-outline" size={16} color={Colors.slate400} />
+          <Ionicons name="search-outline" size={16} color={Colors.textMuted} />
           <TextInput
             style={styles.searchInput}
             placeholder="Search business name..."
-            placeholderTextColor={Colors.slate400}
+            placeholderTextColor={Colors.textMuted}
             value={search}
             onChangeText={setSearch}
           />
@@ -84,7 +84,7 @@ export default function ApplicationsScreen() {
         {/* Application Cards */}
         {filtered.length === 0 ? (
           <View style={styles.empty}>
-            <Ionicons name="document-outline" size={40} color={Colors.slate300} />
+            <Ionicons name="document-outline" size={40} color={Colors.backgroundSecondary} />
             <Text style={styles.emptyText}>No applications found</Text>
           </View>
         ) : (
@@ -119,7 +119,7 @@ export default function ApplicationsScreen() {
 
               <View style={styles.appCardBottom}>
                 <StatusBadge status={app.aiStatus} />
-                <Ionicons name="chevron-forward" size={18} color={Colors.slate400} />
+                <Ionicons name="chevron-forward" size={18} color={Colors.textMuted} />
               </View>
             </TouchableOpacity>
           ))
@@ -130,59 +130,59 @@ export default function ApplicationsScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: Colors.slate50 },
+  safe: { flex: 1, backgroundColor: Colors.backgroundSecondary },
   scroll: { flex: 1 },
   content: { padding: 16, paddingBottom: 32 },
 
   statsRow: { flexDirection: 'row', gap: 8, marginBottom: 16 },
   statCard: {
-    flex: 1, backgroundColor: Colors.white, borderRadius: 10,
+    flex: 1, backgroundColor: Colors.background, borderRadius: 10,
     padding: 10, borderTopWidth: 3, alignItems: 'center',
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05, shadowRadius: 3, elevation: 2,
   },
   statValue: { fontSize: 22, fontWeight: '800' },
-  statLabel: { fontSize: 10, color: Colors.slate500, marginTop: 2, fontWeight: '600' },
+  statLabel: { fontSize: 10, color: Colors.textSecondary, marginTop: 2, fontWeight: '600' },
 
   searchBox: {
-    flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.white,
+    flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.background,
     borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10,
-    borderWidth: 1, borderColor: Colors.slate200, marginBottom: 10,
+    borderWidth: 1, borderColor: Colors.borderLight, marginBottom: 10,
   },
-  searchInput: { flex: 1, marginLeft: 8, fontSize: 14, color: Colors.slate900 },
+  searchInput: { flex: 1, marginLeft: 8, fontSize: 14, color: Colors.textPrimary },
 
   filterRow: { marginBottom: 14 },
   filterChip: {
     paddingHorizontal: 14, paddingVertical: 6, borderRadius: 999,
-    backgroundColor: Colors.white, borderWidth: 1, borderColor: Colors.slate200,
+    backgroundColor: Colors.background, borderWidth: 1, borderColor: Colors.borderLight,
     marginRight: 8,
   },
   filterChipActive: { backgroundColor: Colors.primary, borderColor: Colors.primary },
-  filterChipText: { fontSize: 12, fontWeight: '600', color: Colors.slate600 },
-  filterChipTextActive: { color: Colors.white },
+  filterChipText: { fontSize: 12, fontWeight: '600', color: Colors.textSecondary },
+  filterChipTextActive: { color: Colors.background },
 
   empty: { alignItems: 'center', paddingVertical: 40 },
-  emptyText: { fontSize: 14, color: Colors.slate400, marginTop: 8 },
+  emptyText: { fontSize: 14, color: Colors.borderLight, marginTop: 8 },
 
   appCard: {
-    backgroundColor: Colors.white, borderRadius: 12, padding: 14, marginBottom: 12,
+    backgroundColor: Colors.background, borderRadius: 12, padding: 14, marginBottom: 12,
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
   },
   appCardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 },
   appCardLeft: { flex: 1, marginRight: 8 },
-  appBusinessName: { fontSize: 15, fontWeight: '700', color: Colors.slate900 },
-  appCategory: { fontSize: 12, color: Colors.slate500, marginTop: 2 },
+  appBusinessName: { fontSize: 15, fontWeight: '700', color: Colors.textPrimary },
+  appCategory: { fontSize: 12, color: Colors.textSecondary, marginTop: 2 },
   scoreCircle: {
     width: 42, height: 42, borderRadius: 21,
-    borderWidth: 3, borderColor: Colors.cyan,
-    alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.cyanLight,
+    borderWidth: 3, borderColor: Colors.accent,
+    alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.accentLighter,
   },
   scoreText: { fontSize: 13, fontWeight: '800', color: Colors.primary },
 
   appCardMid: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
   appAmount: { fontSize: 14, fontWeight: '700', color: Colors.primary },
-  appDate: { fontSize: 11, color: Colors.slate400 },
+  appDate: { fontSize: 11, color: Colors.textMuted },
 
   docRow: { flexDirection: 'row', gap: 6, marginBottom: 10 },
   docBadge: {
